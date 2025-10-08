@@ -15,7 +15,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f3d3d3;
   }
 }
 
@@ -27,6 +27,13 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .pixeldigi-font {
@@ -36,4 +43,109 @@ body {
 
 .p2p {
   font-family: 'P2P';
+}
+
+.medodica {
+  font-family: "medodica";
+}
+
+/* subtle up-down floating animation for scroll arrow */
+.animate-float {
+  animation: floatY 1.8s steps(2, end) infinite;
+}
+
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+  100% { transform: translateY(0); }
+}
+
+/* Navbar per-letter base */
+.nav-item { white-space: nowrap; }
+
+/* Variant 1: Pixel pop (per-letter bounce with slight blur) */
+.nav-pop:hover .nav-char {
+  animation-name: navPop;
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(.2,.6,.4,1.1);
+  animation-iteration-count: 1;
+  filter: none;
+}
+
+@keyframes navPop {
+  0%   { transform: translateY(0) scale(1); filter: none; }
+  30%  { transform: translateY(-3px) scale(1.08); filter: contrast(120%) saturate(120%); }
+  60%  { transform: translateY(1px) scale(0.98); filter: none; }
+  100% { transform: translateY(0) scale(1); filter: none; }
+}
+
+/* Variant 2: Underline sweep */
+.nav-underline {
+  position: relative;
+}
+.nav-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: auto;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background: currentColor;
+  transition: width 220ms ease-out;
+}
+.nav-underline:hover::after {
+  width: 100%;
+}
+
+/* Cloud animation keyframes */
+@keyframes cloudMove {
+  0% {
+    transform: translateX(120vw);
+  }
+  100% {
+    transform: translateX(-50vw);
+  }
+}
+
+/* Cloud animation classes */
+.cloud-animate {
+  animation: cloudMove 20s linear infinite;
+  transform: translateX(120vw);
+}
+
+.cloud-animate-slow {
+  animation: cloudMove 30s linear infinite;
+  transform: translateX(120vw);
+}
+
+.cloud-animate-fast {
+  animation: cloudMove 15s linear infinite;
+  transform: translateX(120vw);
+}
+
+nav {
+  font-family: 'p2p', monospace;
+  display: flex;
+  gap: 2rem;
+}
+.glitch {
+  position: relative;
+  display: inline-block;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.05s steps(2, end);
+}
+
+.glitch:hover {
+  animation: pixelShift 0.15s steps(2, end) 2;
+}
+
+@keyframes pixelShift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, 1px); }
+  100% { transform: translate(0, 0); }
 }

@@ -10,18 +10,15 @@ export default function PixelGridBackground() {
     if (!mount) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.setClearColor(0x000000, 1);
     mount.appendChild(renderer.domElement);
 
     const squares = [];
+    let gridColumns = 0;
+    let gridRows = 0;
     const geometry = new THREE.PlaneGeometry(1, 1);
 
     function createGrid() {
@@ -33,6 +30,8 @@ export default function PixelGridBackground() {
 
       camera.position.z = 10;
 
+      camera.aspect = mount.clientWidth / mount.clientHeight;
+      camera.updateProjectionMatrix();
       const vFOV = (camera.fov * Math.PI) / 180;
       const visibleHeight = 2 * Math.tan(vFOV / 2) * camera.position.z;
       const visibleWidth = visibleHeight * camera.aspect;
@@ -41,24 +40,31 @@ export default function PixelGridBackground() {
       const squareSize = visibleWidth / columns;
       const rows = Math.ceil(visibleHeight / squareSize);
 
+      gridColumns = columns;
+      gridRows = rows;
+
       const startX = -visibleWidth / 2 + squareSize / 2;
       const startY = -visibleHeight / 2 + squareSize / 2;
 
       for (let x = 0; x < columns; x++) {
         for (let y = 0; y < rows; y++) {
-          const material = new THREE.MeshBasicMaterial({ color: 0x111111 });
+          const material = new THREE.MeshBasicMaterial({ color: 0x000000, toneMapped: false,  opacity: 1 });
           const mesh = new THREE.Mesh(geometry, material);
           mesh.scale.set(squareSize, squareSize, 1);
           mesh.position.set(startX + x * squareSize, startY + y * squareSize, 0);
+          scene.background = new THREE.Color(0x000000);
           scene.add(mesh);
 
           squares.push({
             mesh,
-            baseColor: 0x111111,
-            targetColor: 0x00ffff,
+            baseColor: 0x000000,
+            targetColor: 0x000000,
             progress: 0,
             state: "idle",
-            timer: 0
+            timer: 0,
+            ix: x,
+            iy: y,
+            lastActivatedSec: 0
           });
         }
       }
@@ -68,58 +74,105 @@ export default function PixelGridBackground() {
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    let hoveredSquare = null;
-    let lastMouseMove = performance.now();
-    const GLOW_ACTIVE_TIME = 0.4; // 200ms window after mouse moves
+    let hasNewMouseEvent = false;
+    let activeGroupSquares = null; 
+    const MIN_HOVER_HOLD = 1.3;
 
     window.addEventListener("mousemove", (event) => {
-      lastMouseMove = performance.now();
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      hasNewMouseEvent = true;
     });
 
     const clock = new THREE.Clock();
-    const ease = t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    const ease = t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
 
-    const HOVER_DELAY = 0.15; // 150ms delay
-    const HOVER_DURATION = 0.2; // 150ms ease-in
-    const FADE_DURATION = 0.4; // smooth fade-out
+    const HOVER_DELAY = 0.2;
+    const HOVER_DURATION = 0.2;
+    const FADE_DURATION = 0.2;
+
+    // helper to get square by indices (push order is x major)
+    const getSquareAt = (ix, iy) => {
+      if (ix < 0 || iy < 0 || ix >= gridColumns || iy >= gridRows) return null;
+      const index = ix * gridRows + iy;
+      return squares[index] || null;
+    };
+
+    // build a 2x2 block anchored so that the hovered cell is within the block
+    const get2x2BlockFor = (sq) => {
+      if (!sq) return null;
+      let bx = sq.ix < gridColumns - 1 ? sq.ix : sq.ix - 1;
+      let by = sq.iy < gridRows - 1 ? sq.iy : sq.iy - 1;
+      bx = Math.max(0, Math.min(bx, gridColumns - 2));
+      by = Math.max(0, Math.min(by, gridRows - 2));
+      const s00 = getSquareAt(bx, by);
+      const s10 = getSquareAt(bx + 1, by);
+      const s01 = getSquareAt(bx, by + 1);
+      const s11 = getSquareAt(bx + 1, by + 1);
+      const group = [s00, s10, s01, s11].filter(Boolean);
+      return { originX: bx, originY: by, group };
+    };
 
     function animate() {
       const delta = clock.getDelta();
       requestAnimationFrame(animate);
 
       const now = performance.now();
-      const mouseMovedRecently = now - lastMouseMove < GLOW_ACTIVE_TIME * 1000;
+      const nowSec = now / 1000;
 
-      // Only set hovered square if mouse moved recently
-      if (mouseMovedRecently) {
+      // Only recompute intersections on actual mouse move
+      let intersects = [];
+      if (hasNewMouseEvent) {
         raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(squares.map(s => s.mesh));
+        intersects = raycaster.intersectObjects(squares.map(s => s.mesh));
+        hasNewMouseEvent = false;
+      }
 
-        if (intersects.length > 0) {
-          const sq = squares.find(s => s.mesh === intersects[0].object);
-          if (hoveredSquare && hoveredSquare !== sq) {
-            hoveredSquare.state = "fading";
-            hoveredSquare.timer = 0;
-          }
-          hoveredSquare = sq;
-          if (sq.state !== "hovering") {
-            sq.state = "hovering";
-            sq.timer = 0;
-          }
-        } else if (hoveredSquare) {
-          hoveredSquare.state = "fading";
-          hoveredSquare.timer = 0;
-          hoveredSquare = null;
+      if (intersects.length > 0) {
+        const sq = squares.find(s => s.mesh === intersects[0].object);
+        const block = get2x2BlockFor(sq);
+        // detect whether the 2x2 group changed
+        const sameGroup =
+          activeGroupSquares &&
+          activeGroupSquares.length === block.group.length &&
+          activeGroupSquares.every((s, i) => s === block.group[i]);
+
+        if (!sameGroup) {
+          activeGroupSquares = block.group;
+          // assign random palette to the 4 squares (independent of which is hovered)
+          const basePalette = [0x0466c8, 0x0353a4, 0x023e7d, 0x002855];
+          const palette = [...basePalette].sort(() => Math.random() - 0.5);
+          block.group.forEach((s, idx) => {
+            s.targetColor = palette[Math.min(idx, palette.length - 1)];
+          });
         }
+
+        // mark active group's squares as hovering and refresh their hold timer
+        const activeSet = new Set(block.group);
+        block.group.forEach(s => {
+          if (s.state !== "hovering") {
+            s.state = "hovering";
+            s.timer = 0;
+          }
+          s.lastActivatedSec = nowSec;
+        });
+
+        // non-active squares: start fading only after per-square hold time passes
+        squares.forEach(s => {
+          if (!activeSet.has(s) && s.state === "hovering" && (nowSec - s.lastActivatedSec) >= MIN_HOVER_HOLD) {
+            s.state = "fading";
+            s.timer = 0;
+          }
+        });
       } else {
-        // mouse stopped → fade out previous
-        if (hoveredSquare && hoveredSquare.state === "hovering") {
-          hoveredSquare.state = "fading";
-          hoveredSquare.timer = 0;
-          hoveredSquare = null;
-        }
+        // No new intersections; allow per-square hold to manage fade
+        activeGroupSquares = null;
+        squares.forEach(s => {
+          if (s.state === "hovering" && (nowSec - s.lastActivatedSec) >= MIN_HOVER_HOLD) {
+            s.state = "fading";
+            s.timer = 0;
+          }
+        });
       }
 
       // update all squares
@@ -151,9 +204,10 @@ export default function PixelGridBackground() {
     animate();
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      if (!mount) return;
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      camera.aspect = mount.clientWidth / mount.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
       createGrid();
     };
     window.addEventListener("resize", handleResize);
@@ -165,114 +219,5 @@ export default function PixelGridBackground() {
     };
   }, []);
 
-  return <div ref={mountRef} className="fixed inset-0 -z-10 w-full h-full" />;
+  return <div ref={mountRef} className="absolute inset-0 -z-10 w-full h-full" />;
 }
-
-//single
-
-// 'use client';
-// import { useEffect, useRef } from "react";
-// import * as THREE from "three";
-
-// export default function PixelGridBackground() {
-//   const mountRef = useRef(null);
-
-//   useEffect(() => {
-//     const mount = mountRef.current;
-
-//     // === Scene setup ===
-//     const scene = new THREE.Scene();
-//     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-//     const renderer = new THREE.WebGLRenderer({ antialias: true });
-//     renderer.setSize(window.innerWidth, window.innerHeight);
-//     renderer.setClearColor(0x000000, 1);
-//     mount.appendChild(renderer.domElement);
-
-//     const squares = [];
-//     const geometry = new THREE.PlaneGeometry(1, 1);
-
-//     function createGrid() {
-//       // Remove old grid
-//       squares.forEach(s => scene.remove(s.mesh));
-//       squares.length = 0;
-
-//       // Camera setup
-//       camera.position.z = 10;
-//       camera.updateProjectionMatrix();
-
-//       // Compute visible area at this distance
-//       const vFOV = (camera.fov * Math.PI) / 180; // vertical fov in radians
-//       const visibleHeight = 2 * Math.tan(vFOV / 2) * camera.position.z;
-//       const visibleWidth = visibleHeight * camera.aspect;
-
-//       // How many squares?
-//       const columns = 80;
-//       const squareSize = visibleWidth / columns;
-//       const rows = Math.ceil(visibleHeight / squareSize);
-
-//       const startX = -visibleWidth / 2 + squareSize / 2;
-//       const startY = -visibleHeight / 2 + squareSize / 2;
-
-//       for (let x = 0; x < columns; x++) {
-//         for (let y = 0; y < rows; y++) {
-//           const material = new THREE.MeshBasicMaterial({ color: 0x111111 });
-//           const square = new THREE.Mesh(geometry, material);
-//           square.scale.set(squareSize, squareSize, 1);
-//           square.position.set(startX + x * squareSize, startY + y * squareSize, 0);
-//           scene.add(square);
-//           squares.push({ mesh: square, intensity: 0 });
-//         }
-//       }
-//     }
-
-//     createGrid();
-
-//     // === Mouse interactivity ===
-//     const raycaster = new THREE.Raycaster();
-//     const mouse = new THREE.Vector2();
-//     window.addEventListener("mousemove", (event) => {
-//       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-//       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-//     });
-
-//     // === Animation loop ===
-//     function animate() {
-//       requestAnimationFrame(animate);
-
-//       raycaster.setFromCamera(mouse, camera);
-//       const intersects = raycaster.intersectObjects(squares.map(s => s.mesh));
-//       if (intersects.length > 0) {
-//         intersects.forEach(hit => {
-//           const s = squares.find(sq => sq.mesh === hit.object);
-//           if (s) s.intensity = 1;
-//         });
-//       }
-
-//       squares.forEach(s => {
-//         s.intensity = Math.max(0, s.intensity - 0.04);
-//         const glow = new THREE.Color(0x00ffff);
-//         const base = new THREE.Color(0x111111);
-//         s.mesh.material.color.lerpColors(base, glow, s.intensity);
-//       });
-
-//       renderer.render(scene, camera);
-//     }
-//     animate();
-
-//     // === Handle resize ===
-//     const handleResize = () => {
-//       camera.aspect = window.innerWidth / window.innerHeight;
-//       renderer.setSize(window.innerWidth, window.innerHeight);
-//       createGrid();
-//     };
-//     window.addEventListener("resize", handleResize);
-
-//     return () => {
-//       window.removeEventListener("resize", handleResize);
-//       mount.removeChild(renderer.domElement);
-//       renderer.dispose();
-//     };
-//   }, []);
-
-//   return <div ref={mountRef} className="fixed inset-0 -z-10 w-full h-full" />;
-// }

@@ -1,28 +1,28 @@
-import PixelGridBackground from "@/components/PixelGridBackground";
+"use client";
+
+import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import LandingPage from "@/components/LandingPage";
+import Summary from "@/components/Summary";
+import { initSmoothScroll } from "@/utils/smoothScrollEngine";
 
 export default function Home() {
+  useEffect(() => {
+    // Initialize smooth scroll when component mounts
+    const engine = initSmoothScroll({ isX: false });
+    
+    return () => {
+      if (engine) {
+        engine.off();
+      }
+    };
+  }, []);
+
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center">
-      <PixelGridBackground />
-      <div className="relative z-10 mb-[8vh]">
-        <img
-          src="/assets/home/hackvisionlogo.svg"
-          alt="HackVision logo"
-          className="w-[90vw] sm:w-[90vw] md:w-[80vw] h-auto"
-        />
-      </div>
-      <div className="relative flex z-10 space-x-10">
-        <img
-            src="/assets/home/start.png"
-            alt="HackVision logo"
-            className="w-[150px] md:w-[200px] h-auto cursor-pointer"
-          />
-          <img
-            src="/assets/home/register.png"
-            alt="HackVision logo"
-            className="w-[150px] md:w-[200px] h-auto cursor-pointer"
-          />
-      </div>
+    <main id="folio" className="relative min-h-screen flex flex-col items-center justify-center">
+      <Navbar />
+      <LandingPage className=""/>
+      <Summary className=""/>
     </main>
   );
 }

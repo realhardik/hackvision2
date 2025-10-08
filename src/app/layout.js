@@ -1,5 +1,4 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar"
 
 export const metadata = {
   title: "Hackvision",
@@ -25,13 +24,17 @@ export default function RootLayout({ children }) {
               src: url('/assets/fonts/Pixel-Digivolve/Pixel Digivolve.otf') format('opentype');
               font-weight: normal;
             }
+            @font-face {
+              font-family: 'medodica';
+              src: url('/assets/fonts/medodica/MedodicaRegular.otf') format('opentype');
+              font-weight: normal;
+            }
           `
         }} />
       </head>
       <body
         className={`antialiased`}
       >
-        <Navbar />
         {children}
       </body>
     </html>
