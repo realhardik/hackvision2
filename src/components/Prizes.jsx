@@ -1,0 +1,47 @@
+'use client';
+import React from 'react';
+
+const Prizes = ({ className = "" }) => {
+    return (
+        <section id='prizes' className={`min-h-[150vh] relative ${className}`}>
+            {/* Title */}
+            <div className="p2p h-full flex flex-col justify-center items-center text-center relative z-10  px-6 pt-14">
+                <h1 
+                    className="bstroke3t text-[12vw]/[12vw] font-bold text-[#FFD700] uppercase pixeldigi-font"
+                >
+                    Prizes
+                </h1>
+            </div>
+
+            {/* Prize Cards */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-18 mt-12 pixeldigi-font relative z-10">
+                {/* 2nd Place */}
+                <div className="text-center p-2 w-52">
+                    <img src='/assets/prizes/2.png' alt="2nd Place" className="w-32 mx-auto mb-4 rotating-coin" />
+                    <h2 className="bstroke text-3xl font-bold mb-2 text-[#FFD700]">2ND PLACE</h2>
+                    <p className="bstrokeds text-white text-4xl">15,000 RS</p>
+                </div>
+
+                {/* 1st Place */}
+                <div className="text-center p-2 w-60">
+                    <img src='/assets/prizes/1stwinner.gif' alt="1st Place Winner" className="w-44 mx-auto mb-4" />
+                    <h2 className="bstroke text-3xl mb-2 text-[#FFD700]">1ST PLACE</h2>
+                    <p className="bstrokeds text-white text-4xl">50,000 RS</p>
+                </div>
+
+                {/* 3rd Place */}
+                <div className="text-center p-2 w-52">
+                    <img src="/assets/prizes/3.png" alt="3rd Place" className="w-32 mx-auto mb-4 rotating-coin" />
+                    <h2 className="bstroke text-3xl mb-2 text-[#FFD700]">3RD PLACE</h2>
+                    <p className="bstrokeds text-white text-4xl">10,000 RS</p>
+                </div>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full z-0 pointer-events-none">
+                <img src="/assets/prizes/prizestrap.png" alt="traps" className="w-full h-auto" />
+            </div>
+        </section>
+    );
+};
+
+export default Prizes;

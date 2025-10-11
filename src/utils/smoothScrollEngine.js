@@ -54,6 +54,7 @@ class SmoothScrollEngine {
 
   resize() {
     if (typeof window !== 'undefined' && this.c) {
+      console.log("resize")
       // Update window dimensions
       this.c.win.w = window.innerWidth;
       this.c.win.h = window.innerHeight;

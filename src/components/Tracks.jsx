@@ -1,39 +1,184 @@
-
+"use client";
+import { useState, useRef, useEffect } from "react";
+import { motion, useMotionValue, useTransform, useMotionValueEvent } from "framer-motion";
+import Image from "next/image";
 export default function Tracks({ className = "" }) {
-    return (
-        <section id="tracks" className={`z-10 -mt-2 medodica relative w-full min-h-screen px-5 py-10 rounded-b-[64px] bg-[#f8e9ab] text-black ${className}`}>
-            <div className="flex flex-col md:flex-row w-full h-screen">
-                {/* Track 1 - Left half */}
-                <div id="tracks-1" className="w-full md:w-1/2 h-full flex flex-col justify-center items-center pr-5">
-                    <div className="">
-                        <h2 className="text-[10vw] font-bold mb-4">Tracks</h2>
-                    </div>
-                </div>
-                
-                {/* Track 2 - Right half */}
-                <div id="tracks-2" className="relative w-full md:w-1/2 h-full flex flex-col justify-center items-center pl-5 py-5">
-                    <div className="relative flex flex-col justify-center items-center text-[5vw] translate-y-1/2">
-                        <span>
-                            <span>Web Development</span>
-                        </span>
-                        <span>
-                            <span>Blockchain/Web3</span>
-                        </span>
-                        <span>
-                            <span>AI/ML</span>
-                        </span>
-                        <span>
-                            <span>Cybersecurity</span>
-                        </span>
-                        <span>
-                            <span>I.O.T</span>
-                        </span>
-                        <span>
-                            <span>Campus Solutions</span>
-                        </span>
-                    </div>
-                </div>
+  const sectionRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const tracksTitleRef = useRef(null);
+  const listWrapRef = useRef(null);
+  const listRef = useRef(null);
+
+  const scrollY = useMotionValue(0);
+
+  const [m, setM] = useState({
+    sectionOff: 0,
+    wrapHeight: 0,
+    freezeStart: 0,
+    freezeEnd: 0,
+    internalDistance: 0,
+    listOffset: 0,
+  });
+
+  const tracks = [
+    "Web Development",
+    "Blockchain/Web3",
+    "AI/ML",
+    "Cybersecurity",
+    "I.O.T",
+    "Campus Solutions",
+  ];
+
+  const trackImages = [
+    "webdev.png",
+    "blockchain.png",
+    "aiml.png",
+    "cybersec.png",
+    "iot.png",
+    "campus.png",
+  ];
+
+  const [currentImage, setCurrentImage] = useState(trackImages[0]);
+
+  // Mirror global scroll
+  useEffect(() => {
+    let raf = 0;
+    let mounted = true;
+    const tick = () => {
+      if (!mounted) return;
+      const g = window._G && window._G.s;
+      const y = g && typeof g.y === "number" ? g.y : window.scrollY || 0;
+      scrollY.set(y);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      mounted = false;
+      cancelAnimationFrame(raf);
+    };
+  }, [scrollY]);
+
+  function resize() {
+    const section = sectionRef.current;
+    const wrapper = wrapperRef.current;
+    const listW = listWrapRef.current;
+    const list = listRef.current;
+    if (!section || !wrapper || !listW || !list) return;
+
+    const items = Array.from(list.children);
+    if (!items.length) return;
+
+    const winHeight = window.innerHeight;
+    const sectionOff = section.offsetTop;
+    const wrapHeight = wrapper.offsetHeight;
+
+    const itemCenters = items.map((it) => it.offsetTop + it.offsetHeight / 2);
+    const firstCenter = itemCenters[0];
+    const lastCenter = itemCenters[itemCenters.length - 1];
+    const internalDistance = Math.max(0, lastCenter - firstCenter);
+
+    const freezeStart = sectionOff + wrapHeight / 2 - winHeight / 2;
+    const freezeEnd = freezeStart + internalDistance;
+
+    const titleCenter =
+      tracksTitleRef.current.offsetTop + tracksTitleRef.current.offsetHeight / 2;
+    const listOffset = titleCenter - firstCenter;
+
+    const sectionHeightWithInternal = wrapHeight + internalDistance;
+    section.style.minHeight = `${sectionHeightWithInternal}px`;
+
+    setM({
+      sectionOff,
+      wrapHeight,
+      freezeStart,
+      freezeEnd,
+      internalDistance,
+      listOffset,
+    });
+  }
+
+  useEffect(() => {
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
+  const comp = useTransform(
+    scrollY,
+    [m.freezeStart, m.freezeEnd],
+    [0, m.internalDistance || 0],
+    { clamp: true }
+  );
+
+  const internalY = useTransform(comp, (v) => -(v - (m.listOffset || 0)));
+
+  // compute active index based on scroll progress
+  const activeIndex = useTransform(comp, (v) => {
+    if (!m.internalDistance) return 0;
+    const step = m.internalDistance / (tracks.length - 1);
+    return Math.round(v / step);
+  });
+   // listen to activeIndex changes from framer motion
+   useMotionValueEvent(activeIndex, "change", (latest) => {
+    const idx = Math.max(0, Math.min(trackImages.length - 1, Math.round(latest)));
+    setCurrentImage(trackImages[idx]);
+      });
+
+  return (
+    <section
+      id="tracks"
+      ref={sectionRef}
+      className={`relative w-full bg-[#f8e9ab] text-black overflow-hidden -mt-2 rounded-b-[64px] ${className}`}
+    >
+      <motion.div ref={wrapperRef} style={{ y: comp }}>
+        <div className="flex flex-col md:flex-row w-full">
+          {/* Left title - perfectly centered */}
+          <div className="w-full md:w-1/2 h-screen flex flex-col md:space-y-10 items-center justify-center pr-5">
+            <div className="">
+                <h2
+                ref={tracksTitleRef}
+                className="text-[10vw] leading-none font-bold select-none"
+                >
+                Tracks
+                </h2>
             </div>
-        </section>
-    )
+            <div className="relative w-full h-auto min-h-[300px] hidden md:flex justify-center items-center">
+                <Image
+                    key={currentImage}
+                    src={`/assets/tracks/${currentImage}`}
+                    alt={currentImage.replace(".png", "")}
+                    className="w-[300px] h-auto"
+                    width={200}
+                    height={120}
+                    loading="eager"
+                    priority
+                />
+            </div>
+          </div>
+
+          {/* Right list */}
+          <div
+            ref={listWrapRef}
+            className="w-full md:w-1/2 h-screen flex items-center overflow-hidden pl-5"
+          >
+            <motion.div ref={listRef} style={{ y: internalY }} className="flex flex-col">
+              {tracks.map((t, i) => (
+                <motion.div
+                  key={t}
+                  className="py-6 text-[5vw] font-semibold"
+                  style={{
+                    opacity: useTransform(activeIndex, (a) =>
+                      a === i ? 1 : 0.6
+                    ),
+                  }}
+                >
+                  {t}
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
 }

@@ -77,7 +77,7 @@ export default function LandingPage({ className = "" }) {
       
 
     return (
-        <div id="landing-page" ref={containerRef} className={`relative w-full min-h-screen h-max flex flex-col p2p justify-center items-center text-white px-5 py-20 overflow-hidden z-9 ${className}`}>
+        <div id="landing-page" ref={containerRef} className={`relative w-full min-h-screen h-max flex flex-col p2p justify-center items-center text-white px-5 py-20 overflow-hidden${className}`}>
             {/* Floating Pixel Images - Scattered Across Screen */}
             <div className="pointer-events-none absolute inset-0 z-5">
                 {/* Pixel 1 - Top Left */}
@@ -161,7 +161,7 @@ export default function LandingPage({ className = "" }) {
                 className="w-[90vw] sm:w-[90vw] md:w-[80vw] h-auto"
                 />
             </div>
-            <div className="relative z-10 mb-[8vh] text-xl">
+            <div className="relative z-10 mb-[8vh] md:text-xl flex flex-col justify-center items-center md:block ">
                 <span className="text-amber-200">SAVE THE DATE! </span> — <span className="font-bold">OCTOBER 15th, 2025</span>
             </div>
             <div className="relative flex z-10 space-x-10">

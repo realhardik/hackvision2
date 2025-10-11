@@ -282,7 +282,6 @@ class S {
     let dh = height - winHeight;
     let dw = width - winHeight;
     let max = this.isX ? dw : dh;
-    console.log('max', max);
     this.vScroll.resize(max);
     this.sUp({
       x: F.Clamp(this.s.x.targ, 0, max),

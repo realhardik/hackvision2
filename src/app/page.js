@@ -7,6 +7,7 @@ import Summary from "@/components/Summary";
 import Tracks from "@/components/Tracks";
 import { createGlobalConfig } from "@/utils/scrollConfig";
 import { initSmoothScroll } from "@/utils/smoothScrollEngine";
+import Prizes from "@/components/Prizes";
 
 export default function Home() {
   const [ready, setReady] = useState(false);
@@ -21,6 +22,7 @@ export default function Home() {
   useEffect(() => {
     if (!ready) return;
     const engine = initSmoothScroll({ isX: false });
+    engine.resize()
     return () => engine?.off();
   }, [ready]);
 
@@ -29,9 +31,10 @@ export default function Home() {
   return (
     <main id="folio" className="relative min-h-screen flex flex-col items-center justify-center">
       <Navbar />
-      <LandingPage />
-      <Summary />
-      <Tracks />
+      <LandingPage className="z-10" />
+      <Summary className="z-12" />
+      <Tracks className="z-12" />
+      <Prizes className="z-11" />
     </main>
   );
 }
