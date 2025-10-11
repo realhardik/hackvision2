@@ -131,7 +131,7 @@ export default function Tracks({ className = "" }) {
       className={`relative w-full bg-[#f8e9ab] text-black overflow-hidden -mt-2 rounded-b-[64px] ${className}`}
     >
       <motion.div ref={wrapperRef} style={{ y: comp }}>
-        <div className="flex flex-col md:flex-row w-full">
+        <div className="flex flex-col md:flex-row w-full cg">
           {/* Left title - perfectly centered */}
           <div className="w-full md:w-1/2 h-screen flex flex-col md:space-y-10 items-center justify-center pr-5">
             <div className="">
@@ -159,24 +159,27 @@ export default function Tracks({ className = "" }) {
           {/* Right list */}
           <div
             ref={listWrapRef}
-            className="w-full md:w-1/2 h-screen flex items-center overflow-hidden pl-5"
-          >
-            <motion.div ref={listRef} style={{ y: internalY }} className="flex flex-col">
-              {tracks.map((t, i) => (
-                <motion.div
-                  key={t}
-                  className="py-6 text-[5vw] font-semibold"
-                  style={{
-                    opacity: useTransform(activeIndex, (a) =>
-                      a === i ? 1 : 0.6
-                    ),
-                  }}
-                >
-                  {t}
+            className="relative w-full md:w-1/2 h-screen flex items-center overflow-hidden pl-5"
+            >
+                {/* Fade gradients */}
+                <div className="pointer-events-none absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#f8e9ab] to-transparent backdrop-blur-[2px]" />
+                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#f8e9ab] to-transparent backdrop-blur-[2px]" />
+
+                {/* Track list */}
+                <motion.div ref={listRef} style={{ y: internalY }} className="flex flex-col">
+                    {tracks.map((t, i) => (
+                    <motion.div
+                        key={t}
+                        className="py-6 text-[5vw] font-semibold"
+                        style={{
+                        opacity: useTransform(activeIndex, (a) => (a === i ? 1 : 0.6)),
+                        }}
+                    >
+                        {t}
+                    </motion.div>
+                    ))}
                 </motion.div>
-              ))}
-            </motion.div>
-          </div>
+            </div>
         </div>
       </motion.div>
     </section>

@@ -19,163 +19,160 @@ function MountainsStrip({ className = "", height = 52 }) {
     );
 }
 
-
 export default function Summary({ className = "" }) {
     return (
-      <>
-        <section id="summary" className={`relative w-full h-auto min-h-screen text-white pt-20 rounded-t-[64px] bg-[#65aef7] ${className}`}>
-          <div className="relative w-full h-auto mb-20">
-            <div className="w-full h-auto relative flex flex-col overflow-hidden mb-20 z-2">
-              {/* Clouds Layer */}
-              <div id="clouds" className="pointer-events-none absolute inset-0 z-2">
-                {/* Animated clouds moving from right to left */}
-                <Image
-                  src="/assets/summary/cloud1.png"
-                  alt="cloud"
-                  className="absolute top-[9vh] w-[30vw] sm:w-[22vw] md:w-[14vw] max-w-[220px] h-auto opacity-95 sm:top-[16vh] md:top-[18vh] cloud-animate"
-                  style={{ animationDelay: '0s' }}
-                  width={220}
-                  height={140}
-                  loading="eager"
-                  priority
-                />
-                <Image
-                  src="/assets/summary/cloud4.png"
-                  alt="cloud"
-                  className="z-1 hidden sm:block absolute top-[8vh] w-[14vw] md:w-[12vw] max-w-[200px] h-auto opacity-85 md:top-[8vh] cloud-animate-slow"
-                  style={{ animationDelay: '15s' }}
-                  width={200}
-                  height={120}
-                  loading="eager"
-                  priority
-                />
-                <Image
-                  src="/assets/summary/cloud2.png"
-                  alt="cloud"
-                  className="absolute top-[10vh] w-[26vw] sm:w-[18vw] md:w-[12vw] max-w-[200px] h-auto opacity-95 sm:top-[14vh] md:top-[16vh] cloud-animate-slow"
-                  style={{ animationDelay: '3s' }}
-                  width={200}
-                  height={120}
-                  loading="eager"
-                  priority
-                />
-                {/* Hide cloud3 on mobile for cleaner look */}
-                <Image
-                  src="/assets/summary/cloud3.png"
-                  alt="cloud"
-                  className="hidden sm:block absolute bottom-[2.5vh] w-[24vw] md:w-[16vw] max-w-[240px] h-auto opacity-90 cloud-animate-fast"
-                  style={{ animationDelay: '6s' }}
-                  width={240}
-                  height={140}
-                  loading="eager"
-                  priority
-                />
-                <Image
-                  src="/assets/summary/cloud5.png"
-                  alt="cloud"
-                  className="z-1 absolute top-[5vh] w-[28vw] sm:w-[vw] md:w-[19vw] max-w-[210px] h-auto opacity-85 sm:top-[5vh] md:top-[5vh] cloud-animate-slow"
-                  style={{ animationDelay: '9s' }}
-                  width={210}
-                  height={130}
-                  loading="eager"
-                  priority
-                />
-                <Image
-                  src="/assets/summary/cloud1.png"
-                  alt="cloud"
-                  className="absolute top-[18vh] w-[28vw] sm:w-[20vw] md:w-[14vw] max-w-[220px] h-auto opacity-90 sm:top-[22vh] md:top-[24vh] cloud-animate"
-                  style={{ animationDelay: '12s' }}
-                  width={220}
-                  height={140}
-                  loading="eager"
-                  priority
-                />
-                <Image
-                  src="/assets/summary/cloud2.png"
-                  alt="cloud"
-                  className="absolute top-[22vh] w-[28vw] sm:w-[vw] md:w-[13vw] max-w-[210px] h-auto opacity-85 sm:top-[22vh] md:top-[24vh] cloud-animate-fast"
-                  style={{ animationDelay: '18s' }}
-                  width={210}
-                  height={130}
-                  loading="eager"
-                  priority
-                />
-              </div>
+      <section id="summary" className={`relative w-full h-auto min-h-screen text-white pt-20 rounded-t-[64px] bg-[#65aef7] ${className}`}>
+        <div className="relative w-full h-auto">
+          <div className="w-full h-auto relative flex flex-col overflow-hidden mb-20 z-2">
+            {/* Clouds Layer */}
+            <div id="clouds" className="pointer-events-none absolute inset-0 z-2">
+              {/* Animated clouds moving from right to left */}
+              <Image
+                src="/assets/summary/cloud1.png"
+                alt="cloud"
+                className="absolute top-[9vh] w-[30vw] sm:w-[22vw] md:w-[14vw] max-w-[220px] h-auto opacity-95 sm:top-[16vh] md:top-[18vh] cloud-animate"
+                style={{ animationDelay: '0s' }}
+                width={220}
+                height={140}
+                loading="eager"
+                priority
+              />
+              <Image
+                src="/assets/summary/cloud4.png"
+                alt="cloud"
+                className="z-1 hidden sm:block absolute top-[8vh] w-[14vw] md:w-[12vw] max-w-[200px] h-auto opacity-85 md:top-[8vh] cloud-animate-slow"
+                style={{ animationDelay: '15s' }}
+                width={200}
+                height={120}
+                loading="eager"
+                priority
+              />
+              <Image
+                src="/assets/summary/cloud2.png"
+                alt="cloud"
+                className="absolute top-[10vh] w-[26vw] sm:w-[18vw] md:w-[12vw] max-w-[200px] h-auto opacity-95 sm:top-[14vh] md:top-[16vh] cloud-animate-slow"
+                style={{ animationDelay: '3s' }}
+                width={200}
+                height={120}
+                loading="eager"
+                priority
+              />
+              {/* Hide cloud3 on mobile for cleaner look */}
+              <Image
+                src="/assets/summary/cloud3.png"
+                alt="cloud"
+                className="hidden sm:block absolute bottom-[2.5vh] w-[24vw] md:w-[16vw] max-w-[240px] h-auto opacity-90 cloud-animate-fast"
+                style={{ animationDelay: '6s' }}
+                width={240}
+                height={140}
+                loading="eager"
+                priority
+              />
+              <Image
+                src="/assets/summary/cloud5.png"
+                alt="cloud"
+                className="z-1 absolute top-[5vh] w-[28vw] sm:w-[vw] md:w-[19vw] max-w-[210px] h-auto opacity-85 sm:top-[5vh] md:top-[5vh] cloud-animate-slow"
+                style={{ animationDelay: '9s' }}
+                width={210}
+                height={130}
+                loading="eager"
+                priority
+              />
+              <Image
+                src="/assets/summary/cloud1.png"
+                alt="cloud"
+                className="absolute top-[18vh] w-[28vw] sm:w-[20vw] md:w-[14vw] max-w-[220px] h-auto opacity-90 sm:top-[22vh] md:top-[24vh] cloud-animate"
+                style={{ animationDelay: '12s' }}
+                width={220}
+                height={140}
+                loading="eager"
+                priority
+              />
+              <Image
+                src="/assets/summary/cloud2.png"
+                alt="cloud"
+                className="absolute top-[22vh] w-[28vw] sm:w-[vw] md:w-[13vw] max-w-[210px] h-auto opacity-85 sm:top-[22vh] md:top-[24vh] cloud-animate-fast"
+                style={{ animationDelay: '18s' }}
+                width={210}
+                height={130}
+                loading="eager"
+                priority
+              />
+            </div>
 
-              {/* Mountains Strip at bottom */}
-              <div className="w-full h-auto relative z-1 mt-[40vh]">
-                <MountainsStrip className="w-full" height={52} />
+            {/* Mountains Strip at bottom */}
+            <div className="w-full h-auto relative z-1 mt-[40vh]">
+              <MountainsStrip className="w-full" height={52} />
+            </div>
+          </div>
+          <div className="cg font-medium text-black flex flex-col justify-center items-center text-s md:text-5xl mb-25">
+              <span>
+                <span>Lorem Ipsum is simply dummy text</span>
+              </span>
+              <span>
+                <span>of the printing and typesetting industry. Lorem</span>
+              </span>
+              <span>
+                <span>Ipsum has been the industry's standard dummy text ever</span>
+              </span>
+              <span>
+                <span>since the 1500s, when an unknown printer took a galley.</span>
+              </span>
+          </div>
+          <div className="relative w-full h-max mb-5">
+            <div className="relative w-full px-5">
+              <div className="relative w-full h-[350px]">
+                <div className="absolute w-[25px] top-[10%] left-[10%]">
+                  <Image src="/assets/summary/trees/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                </div>
+                <div className="absolute w-[25px] bottom-[20%] left-[20%]">
+                  <Image src="/assets/summary/trees/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                </div>
+                <div className="absolute w-[25px] bottom-[25%] right-[25%]">
+                  <Image src="/assets/summary/trees/flower2.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                </div>
+                <div className="absolute w-[25px] top-[25%] right-[30%]">
+                  <Image src="/assets/summary/trees/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                </div>
+                <div className="absolute w-[25px] top-1/2 right-[15%]">
+                  <Image src="/assets/summary/trees/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                </div>
+                <div className="absolute w-[35px] bottom-[3vh] right-[55%]">
+                  <Image src="/assets/summary/trees/bush1.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                </div>
               </div>
-            </div>
-            <div className="cg font-medium text-black flex flex-col justify-center items-center text-s md:text-5xl mb-25">
-                <span>
-                  <span>Lorem Ipsum is simply dummy text</span>
-                </span>
-                <span>
-                  <span>of the printing and typesetting industry. Lorem</span>
-                </span>
-                <span>
-                  <span>Ipsum has been the industry's standard dummy text ever</span>
-                </span>
-                <span>
-                  <span>since the 1500s, when an unknown printer took a galley.</span>
-                </span>
-            </div>
-            <div className="relative w-full h-max">
-              <div className="relative w-full px-5">
-                <div className="relative w-full h-[350px]">
-                  <div className="absolute w-[25px] top-[10%] left-[10%]">
-                    <Image src="/assets/summary/trees/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
-                  </div>
-                  <div className="absolute w-[25px] bottom-[20%] left-[20%]">
-                    <Image src="/assets/summary/trees/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
-                  </div>
-                  <div className="absolute w-[25px] bottom-[25%] right-[25%]">
-                    <Image src="/assets/summary/trees/flower2.png" alt="" className="" width={25} height={25} loading="eager" priority />
-                  </div>
-                  <div className="absolute w-[25px] top-[25%] right-[30%]">
-                    <Image src="/assets/summary/trees/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
-                  </div>
-                  <div className="absolute w-[25px] top-1/2 right-[15%]">
-                    <Image src="/assets/summary/trees/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
-                  </div>
-                  <div className="absolute w-[35px] bottom-[3vh] right-[55%]">
-                    <Image src="/assets/summary/trees/bush1.png" alt="" className="" width={35} height={35} loading="eager" priority />
-                  </div>
+              <div className="absolute top-0 left-0 w-full h-[250px]">
+                <div className="absolute top-[35%] left-[25%]">
+                  <Image className="w-[45px]" src="/assets/summary/trees/wolf.png" alt="" width={45} height={45} loading="eager" priority />
                 </div>
-                <div className="absolute top-0 left-0 w-full h-[250px]">
-                  <div className="absolute top-[35%] left-[25%]">
-                    <Image className="w-[45px]" src="/assets/summary/trees/wolf.png" alt="" width={45} height={45} loading="eager" priority />
-                  </div>
-                  <div className="absolute top-[50%] left-[50%]">
-                    <Image className="w-[45px]" src="/assets/summary/trees/rabbit.png" alt="" width={45} height={45} loading="eager" priority />
-                  </div>
+                <div className="absolute top-[50%] left-[50%]">
+                  <Image className="w-[45px]" src="/assets/summary/trees/rabbit.png" alt="" width={45} height={45} loading="eager" priority />
                 </div>
-                <div className="absolute top-[1.3vh] left-[3vw]">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
-                <div className="absolute top-[40%] left-[60%]">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
-                <div className="absolute top-[1.3vh] right-[1.2vw] hidden md:block">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree2.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
-                <div className="absolute bottom-[1.3vh] right-[1.2vw] hidden md:block">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree3.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
-                <div className="absolute top-[25%] left-[40%]">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree2.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
-                <div className="absolute bottom-[1.3vh] left-[8vw]">
-                  <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-                </div>
+              </div>
+              <div className="absolute top-[1.3vh] left-[3vw]">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+              </div>
+              <div className="absolute top-[40%] left-[60%]">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+              </div>
+              <div className="absolute top-[1.3vh] right-[1.2vw] hidden md:block">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree2.png" alt="" width={125} height={125} loading="eager" priority />
+              </div>
+              <div className="absolute bottom-[1.3vh] right-[1.2vw] hidden md:block">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree3.png" alt="" width={125} height={125} loading="eager" priority />
+              </div>
+              <div className="absolute top-[25%] left-[40%]">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree2.png" alt="" width={125} height={125} loading="eager" priority />
+              </div>
+              <div className="absolute bottom-[1.3vh] left-[8vw]">
+                <Image className="h-[125px] w-auto" src="/assets/summary/trees/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
             </div>
           </div>
           <div className="relative w-full h-auto">
             <Image src="/assets/summary/tra-nsition.png" className="h-auto w-full" alt="" width={800} height={200} loading="eager" priority />
           </div>
-        </section>
-      </>
+        </div>
+      </section>
   )
 }
