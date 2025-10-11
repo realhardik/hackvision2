@@ -11,98 +11,69 @@ export default function LandingPage({ className = "" }) {
         const current = { x: 0, y: 0 };
       
         const pixelSpeeds = Array.from({ length: 8 }, () => {
-            const r = Math.random();
-            if (r > 0.85) return 0.12 + Math.random() * 0.05;
-            if (r > 0.6) return 0.09 + Math.random() * 0.02;
-            return 0.05 + Math.random() * 0.03;
+          const r = Math.random();
+          if (r > 0.85) return 0.12 + Math.random() * 0.05;
+          if (r > 0.6) return 0.09 + Math.random() * 0.02;
+          return 0.05 + Math.random() * 0.03;
         });
-        
+      
         const handleMouseMove = (e) => {
-            if (!containerRef.current) return;
-            const rect = containerRef.current.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-        
-            target.x = (e.clientX - centerX) / (rect.width / 2);
-            target.y = (e.clientY - centerY) / (rect.height / 2);
+          if (!containerRef.current) return;
+          const rect = containerRef.current.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          target.x = (e.clientX - centerX) / (rect.width / 2);
+          target.y = (e.clientY - centerY) / (rect.height / 2);
         };
-        
+        document.addEventListener("mousemove", handleMouseMove);
+      
+        const landingPage = containerRef.current;
         const animate = () => {
-            requestAnimationFrame(animate);
-        
-            current.x += (target.x - current.x) * 0.07;
-            current.y += (target.y - current.y) * 0.07;
-        
-            pixelRefs.current.forEach((pixelRef, index) => {
-                if (pixelRef && index < 8) {
-                    const moveX = -current.x * 20;
-                    const moveY = -current.y * 15;
-        
-                    const speed = pixelSpeeds[index];
-                    const prev = pixelRef._pos || { x: 0, y: 0 };
-                    const newX = prev.x + (moveX - prev.x) * speed;
-                    const newY = prev.y + (moveY - prev.y) * speed;
-        
-                    pixelRef.style.transform = `translate(${newX}px, ${newY}px)`;
-                    pixelRef._pos = { x: newX, y: newY };
-                }
-            });
-        };
-        
-        const handleScrollAnimation = () => {
-            if (!containerRef.current || !window._G) return;
-            
-            const landingPage = containerRef.current;
-            const scrollY = window._G.s.y;
-            const landingPageHeight = landingPage.offsetHeight;
-            const windowHeight = window._G.win.h;
-            
-            const animationStartPoint = landingPageHeight * 0.8;
-            const animationEndPoint = landingPageHeight + windowHeight * 0.5;
-            
-            let progress = 0;
-            if (scrollY > animationStartPoint) {
-                progress = Math.min((scrollY - animationStartPoint) / (animationEndPoint - animationStartPoint), 1);
+          requestAnimationFrame(animate);
+          current.x += (target.x - current.x) * 0.07;
+          current.y += (target.y - current.y) * 0.07;
+      
+          pixelRefs.current.forEach((pixelRef, i) => {
+            if (!pixelRef) return;
+            const moveX = -current.x * 20;
+            const moveY = -current.y * 15;
+            const speed = pixelSpeeds[i];
+            const prev = pixelRef._pos || { x: 0, y: 0 };
+            const newX = prev.x + (moveX - prev.x) * speed;
+            const newY = prev.y + (moveY - prev.y) * speed;
+            pixelRef.style.transform = `translate(${newX}px, ${newY}px)`;
+            pixelRef._pos = { x: newX, y: newY };
+          });
+          if (window._G) {
+            const scrollY = window._G.s?.y ?? 0;
+            const h = landingPage.offsetHeight;
+
+            // only run if scroll within 0–height
+            if (scrollY < 0 || scrollY > h) return;
+
+            const start = h * 0;
+            const end = h * 0.8;
+
+            if (scrollY < start) {
+            landingPage.style.transform = "scale(1)";
+            landingPage.style.opacity = 1;
+            return;
             }
-            
-            const scale = Math.max(0.8 - (progress * 0.3), 0.5); // Scale from 0.8 to 0.5
-            const opacity = Math.max(1 - (progress * 0.8), 0.2); // Opacity from 1 to 0.2
-            
-            // Apply transformations
+
+            let progress = (scrollY - start) / (end - start);
+            progress = Math.min(Math.max(progress, 0), 1);
+
+            const scale = 1 - 0.2 * progress;   // 1 → 0.7
+            const opacity = 1 - progress;       // 1 → 0
+
             landingPage.style.transform = `scale(${scale})`;
             landingPage.style.opacity = opacity;
-            
-            // Add blur effect for extra smoothness
-            const blur = progress * 2; // 0 to 2px blur
-            landingPage.style.filter = `blur(${blur}px)`;
+          }
         };
-        
-        // Resize handler
-        const handleResize = () => {
-            // Recalculate on resize
-            handleScrollAnimation();
-        };
-        
-        // Scroll handler
-        const handleScroll = () => {
-            handleScrollAnimation();
-        };
-        
-        // Set up event listeners
-        document.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("resize", handleResize);
-        
-        // Start animations
         animate();
-        handleScrollAnimation(); // Initial call
-        
-        return () => {
-            document.removeEventListener("mousemove", handleMouseMove);
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+      
+        return () => document.removeEventListener("mousemove", handleMouseMove);
+      }, []);
       
 
     return (

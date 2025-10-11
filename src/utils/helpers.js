@@ -163,7 +163,6 @@ F.Lerp = (start, end, factor) => start * (1 - factor) + end * factor;
 let preR = 1; // Initialize to 1 instead of 0
 F.Damp = (start, end, factor) => {
   const result = F.Lerp(start, end, 1 - Math.exp(Math.log(1 - factor) * preR));
-  console.log('🔧 F.Damp: start:', start, 'end:', end, 'factor:', factor, 'preR:', preR, 'result:', result);
   return result;
 };
 
@@ -234,10 +233,8 @@ class RafR {
     if (!this.on) {
       // Continuous RAF implementation
       this.on = true;
-      console.log('🔄 RafR: Starting continuous RAF loop');
       const loop = (time) => {
         if (this.on) {
-          console.log('🔄 RafR: RAF callback called with time:', time);
           this.cb.apply(null, [time, ...this.arg]);
           this.rafId = requestAnimationFrame(loop);
         }

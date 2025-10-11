@@ -29,6 +29,10 @@ export default function RootLayout({ children }) {
               src: url('/assets/fonts/medodica/MedodicaRegular.otf') format('opentype');
               font-weight: normal;
             }
+            @font-face {
+              font-family: 'CG';
+              src: url('/assets/fonts/ClashGrotesk/Fonts/WEB/fonts/ClashGrotesk-Variable.woff2') format('woff2');
+            }
           `
         }} />
       </head>

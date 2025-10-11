@@ -1,6 +1,5 @@
 import F from './helpers.js';
 import { S, LScroll } from './smoothScroll.js';
-import { createGlobalConfig } from './scrollConfig.js';
 
 // Main smooth scroll engine class
 class SmoothScrollEngine {
@@ -17,23 +16,17 @@ class SmoothScrollEngine {
   }
 
   init(options = {}) {
-    // Initialize global configuration
     if (typeof window !== 'undefined') {
-      console.log('🚀 SmoothScrollEngine: Initializing...');
-      window._G = createGlobalConfig();
       this.c = window._G;
-      console.log('📊 Global config created:', this.c);
       
-      // Initialize scroll system after global config is set
       this.scroll = new S();
       this.lsc = new LScroll();
       this.raf = new F.RafR(this.loop);
       
       this.scroll.init({ isX: options.isX || false });
       this.lsc.init();
-      this.raf.run();
       this.resize();
-      console.log('✅ SmoothScrollEngine: Initialized successfully');
+      this.raf.run();
     }
   }
 
@@ -55,7 +48,6 @@ class SmoothScrollEngine {
     if (!this.c || !this.scroll) return;
     this.scroll.loop();
     if (this.c.s.needS && this.lsc) {
-      console.log('🔄 Engine: Running LScroll with needS:', this.c.s.needS);
       this.lsc.run();
     }
   }

@@ -101,7 +101,6 @@ class RafR {
 // Virtual Scroll class
 class VScroll {
   constructor(options) {
-    console.log('🎯 VScroll: Constructor called');
     const { cb } = options;
     this.cbY = cb.y;
     this.cbX = cb.x;
@@ -115,7 +114,6 @@ class VScroll {
     for (let i = 0; i < scrollEvents.length; i++) {
       F.l(document, scrollEvents[i], this.raf);
     }
-    console.log('🎯 VScroll: Event listeners added for', scrollEvents);
   }
 
   xDirection(isX) {
@@ -123,14 +121,12 @@ class VScroll {
   }
 
   on(options) {
-    console.log('🎯 VScroll: on() called', options);
     if (options.reset) {
       this.x = 0;
       this.y = 0;
     }
     this.tick = false;
     this.isOn = true;
-    console.log('🎯 VScroll: isOn =', this.isOn);
   }
 
   off() {
@@ -142,21 +138,17 @@ class VScroll {
   }
 
   resize(max) {
-    console.log('🎯 VScroll: resize called with max:', max);
     this.max = max;
     this.spaceGap = this.c.win.h - 40;
-    console.log('🎯 VScroll: max set to:', this.max, 'spaceGap:', this.spaceGap);
   }
 
   raf(event) {
     if (typeof window === 'undefined') return;
-    console.log('🎯 VScroll: Event triggered', event.type, 'isOn:', this.isOn);
     this.e = event;
     this.eT = event.type;
     this.eK = event.key;
     
     if (this.isOn && (!this.tick)) {
-      console.log('🎯 VScroll: Starting RAF loop');
       requestAnimationFrame(this.run);
       this.tick = true;
     }
@@ -197,9 +189,6 @@ class VScroll {
 
     if (this.isFF && event.deltaMode === 1) delta *= 60;
     delta *= 0.556;
-    
-    console.log('🎯 VScroll: Wheel delta:', delta, 'isX:', this.isX);
-    
     if (this.isX) {
       this.x += delta;
     } else {
@@ -234,11 +223,9 @@ class VScroll {
     if (this.tick) {
       if (this.isX) {
         this.x = F.R(F.Clamp(this.x, -this.max, 0));
-        console.log('🎯 VScroll: Calling cbX with:', -this.x, 'max:', this.max);
         this.cbX(-this.x);
       } else {
         this.y = F.R(F.Clamp(this.y, -this.max, 0));
-        console.log('🎯 VScroll: Calling cbY with:', -this.y, 'max:', this.max);
         this.cbY(-this.y);
       }
       this.tick = false;
@@ -275,22 +262,18 @@ class S {
   }
 
   init(options) {
-    console.log('📜 S: init() called');
     if (!this.c) {
-      console.log('❌ S: No global config available');
       return;
     }
     this.isX = options.isX;
     this.vScroll.xDirection(this.isX);
     this.sUp({ x: 0, y: 0 });
-    console.log('📜 S: Initialized with isX:', this.isX);
   }
 
   resize() {
     if (!this.c) return;
     let main = F.G.id("folio");
     if (!main) {
-      console.log('❌ S: No #folio element found');
       return;
     }
     let height = main.offsetHeight;
@@ -298,9 +281,8 @@ class S {
     let winHeight = this.c.win.h;
     let dh = height - winHeight;
     let dw = width - winHeight;
-    
     let max = this.isX ? dw : dh;
-    console.log('📜 S: Resize - height:', height, 'winHeight:', winHeight, 'max:', max);
+    console.log('max', max);
     this.vScroll.resize(max);
     this.sUp({
       x: F.Clamp(this.s.x.targ, 0, max),
@@ -318,13 +300,11 @@ class S {
 
   sX(value) {
     if (!this.c || this.c.s.stopS) return;
-    console.log('📜 S: sX called with value:', value);
     this.s.x.targ = F.R(value);
   }
 
   sY(value) {
     if (!this.c || this.c.s.stopS) return;
-    console.log('📜 S: sY called with value:', value);
     this.s.y.targ = F.R(value);
   }
 
@@ -334,7 +314,6 @@ class S {
     const c = this.c.s;
     
     const needScroll = (c.y !== (this.isX ? this.s.x.targ : this.s.y.targ));
-    console.log('📜 S: loop() called - needScroll:', needScroll, 'c.y:', c.y, 'targ:', this.isX ? this.s.x.targ : this.s.y.targ, 'curr:', this.s.y.curr);
     
     if (c.needS = needScroll) {
       const oldX = this.s.x.curr;
@@ -343,7 +322,6 @@ class S {
       this.s.y.curr = F.Damp(this.s.y.curr, this.s.y.targ, 0.09);
       c.x = F.R(this.s.x.curr);
       c.y = F.R(this.s.y.curr);
-      console.log('📜 S: Damping - oldY:', oldY, 'newY:', this.s.y.curr, 'targ:', this.s.y.targ, 'diff:', Math.abs(this.s.y.curr - this.s.y.targ));
     }
   }
 
@@ -365,13 +343,10 @@ class LScroll {
   }
 
   init() {
-    console.log('🔍 LScroll: init() called');
     if (!this.c || !this.sd) {
-      console.log('❌ LScroll: No config or scroll data available');
       return;
     }
     const lsc = this.sd[this.c.page.is];
-    console.log('🔍 LScroll: Found config for page:', this.c.page.is, lsc);
     const pick = F.p;
 
     this.arr = [];
@@ -381,15 +356,12 @@ class LScroll {
     this.hasStk = false;
 
     if (Array.isArray(lsc.scE)) {
-      console.log('🔍 LScroll: Processing scroll elements:', lsc.scE);
       for (let i = 0; i < lsc.scE.length; i++) {
         const element = pick(lsc.scE[i]);
-        console.log('🔍 LScroll: Element', lsc.scE[i], 'found:', !!element);
         if (element) {
           this.arr.push({ dom: element, inside: {}, isOut: true });
         }
       }
-      console.log('🔍 LScroll: Total elements added:', this.arr.length);
     }
 
     const sticky = lsc.stky;
@@ -455,7 +427,7 @@ class LScroll {
     const { c, arr, arrL, hasStk, stky, stkL } = this;
     const sY = c.s.y;
     const sX = c.s.x;
-    console.log('🔍 LScroll: run() called, scrollY:', sY, 'elements:', arrL);
+  // run
 
     for (let i = 0; i < arrL; i++) {
       const element = arr[i];
@@ -580,7 +552,6 @@ class LScroll {
   }
 
   domUp(element, y, x) {
-    console.log('🔍 LScroll: domUp called, transforming element by', x, y);
     F.T(element, -x, -y, "px");
   }
 }
