@@ -5,9 +5,10 @@ import Navbar from "@/components/Navbar";
 import LandingPage from "@/components/LandingPage";
 import Summary from "@/components/Summary";
 import Tracks from "@/components/Tracks";
+import PnT from "@/components/PnT";
+import Footer from "@/components/Footer";
 import { createGlobalConfig } from "@/utils/scrollConfig";
 import { initSmoothScroll } from "@/utils/smoothScrollEngine";
-import Prizes from "@/components/Prizes";
 
 export default function Home() {
   const [ready, setReady] = useState(false);
@@ -34,7 +35,8 @@ export default function Home() {
       <LandingPage className="z-10" />
       <Summary className="z-12" />
       <Tracks className="z-12" />
-      <Prizes className="z-11" />
+      <PnT />
+      <Footer />
     </main>
   );
 }
