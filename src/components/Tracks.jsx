@@ -1,15 +1,15 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { motion, useMotionValue, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useTransform, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
+import { scrollY } from "@/utils/globalScroll";
+
 export default function Tracks({ className = "" }) {
   const sectionRef = useRef(null);
   const wrapperRef = useRef(null);
   const tracksTitleRef = useRef(null);
   const listWrapRef = useRef(null);
   const listRef = useRef(null);
-
-  const scrollY = useMotionValue(0);
 
   const [m, setM] = useState({
     sectionOff: 0,
@@ -39,24 +39,6 @@ export default function Tracks({ className = "" }) {
   ];
 
   const [currentImage, setCurrentImage] = useState(trackImages[0]);
-
-  // Mirror global scroll
-  useEffect(() => {
-    let raf = 0;
-    let mounted = true;
-    const tick = () => {
-      if (!mounted) return;
-      const g = window._G && window._G.s;
-      const y = g && typeof g.y === "number" ? g.y : window.scrollY || 0;
-      scrollY.set(y);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => {
-      mounted = false;
-      cancelAnimationFrame(raf);
-    };
-  }, [scrollY]);
 
   function resize() {
     const section = sectionRef.current;
@@ -103,27 +85,23 @@ export default function Tracks({ className = "" }) {
     return () => window.removeEventListener("resize", resize);
   }, []);
 
-  const comp = useTransform(
-    scrollY,
-    [m.freezeStart, m.freezeEnd],
-    [0, m.internalDistance || 0],
-    { clamp: true }
-  );
+  const comp = useTransform(scrollY, [m.freezeStart, m.freezeEnd], [0, m.internalDistance || 0], {
+    clamp: true,
+  });
 
   const internalY = useTransform(comp, (v) => -(v - (m.listOffset || 0)));
 
-  // compute active index based on scroll progress
   const activeIndex = useTransform(comp, (v) => {
     if (!m.internalDistance) return 0;
     const step = m.internalDistance / (tracks.length - 1);
     return Math.round(v / step);
   });
-   // listen to activeIndex changes from framer motion
-   useMotionValueEvent(activeIndex, "change", (latest) => {
+
+  useMotionValueEvent(activeIndex, "change", (latest) => {
     const idx = Math.max(0, Math.min(trackImages.length - 1, Math.round(latest)));
     setCurrentImage(trackImages[idx]);
-      });
-
+  });
+  
   return (
     <section
       id="tracks"
