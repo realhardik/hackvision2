@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { motion, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import Prizes from "./Prizes";
 import Timeline from "./Timeline";
 import { scrollY } from "@/utils/globalScroll";
@@ -8,24 +8,33 @@ import { scrollY } from "@/utils/globalScroll";
 export default function PnT() {
   const sectionRef = useRef(null);
   const wrapRef = useRef(null);
-  const [start, end] = [useRef(0), useRef(0)];
+  const [range, setRange] = useState([0, 0]);
+  const y = useMotionValue(0);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const pntWrap = wrapRef.current;
-    const tracks = document.querySelector("#tracks");
-    if (!pntWrap || !tracks) return;
+  // useEffect(() => {
+  //   const section = sectionRef.current;
+  //   const tracks = document.querySelector("#tracks");
+  //   if (!section || !tracks) return;
 
-    start.current = section.offsetTop - window.innerHeight;
-    end.current = tracks.offsetTop + tracks.offsetHeight;
-  }, []);
+  //   const start = section.offsetTop - window.innerHeight;
+  //   const end = tracks.offsetTop + tracks.offsetHeight;
+  //   setRange([start, end]);
+  // }, []);
 
-  const y = useTransform(
-    scrollY,
-    [start.current, end.current],
-    [0, -(end.current - start.current)],
-    { clamp: true }
-  );
+  // useEffect(() => {
+  //   const [start, end] = range;
+  //   if (start === end) return;
+  //   const total = end - start;
+
+  //   const update = (val) => {
+  //     const clamped = Math.min(Math.max(val, start), end);
+  //     const progress = (clamped - start) / total;
+  //     y.set(progress * total);
+  //   };
+
+  //   const unsub = scrollY.on("change", update);
+  //   return () => unsub();
+  // }, [range]);
 
   return (
     <section id="pnt" ref={sectionRef} className="w-full h-auto relative">
@@ -33,7 +42,7 @@ export default function PnT() {
         id="pnWrap"
         ref={wrapRef}
         style={{ y }}
-        className="w-full h-auto relative -top-[100vh]"
+        className="w-full h-auto relative"
       >
         <div className="absolute w-full h-screen top-0 left-0 daybg -z-1" />
         <Prizes />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import PixelGrid from "./sub/PixelGrid";
 
 export default function LandingPage({ className = "" }) {
     const containerRef = useRef(null);
@@ -226,6 +227,7 @@ export default function LandingPage({ className = "" }) {
                     </g>
                 </svg>
             </div>
+            <PixelGrid />
         </div>
     )
 }

@@ -32,6 +32,10 @@ export default function RootLayout({ children }) {
                 font-family: 'CG';
                 src: url('/assets/fonts/ClashGrotesk/Fonts/WEB/fonts/ClashGrotesk-Variable.woff2') format('woff2');
               }
+              @font-face {
+                font-family: 'BN';
+                src: url('/assets/fonts/BebasNeue/Fonts/BebasNeue-Regular.woff') format('woff');
+              }
             `,
           }}
         />

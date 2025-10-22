@@ -268,6 +268,7 @@ class S {
     this.isX = options.isX;
     this.vScroll.xDirection(this.isX);
     this.sUp({ x: 0, y: 0 });
+    this.resize();
   }
 
   resize() {

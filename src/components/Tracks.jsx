@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useTransform, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import { scrollY } from "@/utils/globalScroll";
+import PixelDaft from "./sub/PixelDaft";
 
 export default function Tracks({ className = "" }) {
   const sectionRef = useRef(null);
@@ -108,8 +109,9 @@ export default function Tracks({ className = "" }) {
       ref={sectionRef}
       className={`relative w-full bg-[#f8e9ab] text-black overflow-hidden -mt-2 rounded-b-[64px] ${className}`}
     >
-      <motion.div ref={wrapperRef} style={{ y: comp }}>
-        <div className="flex flex-col md:flex-row w-full cg">
+      <motion.div className="z-2" ref={wrapperRef} style={{ y: comp }}>
+        {/* <PixelDaft className="z-0 absolute top-0 left-0 w-full h-screen" /> */}
+        <div className="relative flex flex-col md:flex-row w-full bn z-2">
           {/* Left title - perfectly centered */}
           <div className="w-full md:w-1/2 h-screen flex flex-col md:space-y-10 items-center justify-center pr-5">
             <div className="">
@@ -139,12 +141,8 @@ export default function Tracks({ className = "" }) {
             ref={listWrapRef}
             className="relative w-full md:w-1/2 h-screen flex items-center overflow-hidden pl-5"
             >
-                {/* Fade gradients */}
-                <div className="pointer-events-none absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[#f8e9ab] to-transparent backdrop-blur-[2px]" />
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-[#f8e9ab] to-transparent backdrop-blur-[2px]" />
-
                 {/* Track list */}
-                <motion.div ref={listRef} style={{ y: internalY }} className="flex flex-col">
+                <motion.div ref={listRef} style={{ y: internalY }} className="flex flex-col w-full justify-center items-center">
                     {tracks.map((t, i) => (
                     <motion.div
                         key={t}

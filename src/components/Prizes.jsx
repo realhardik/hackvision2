@@ -3,9 +3,9 @@ import React from 'react';
 
 const Prizes = ({ className = "" }) => {
     return (
-        <section id='prizes' className={`h-screenzx pt-10 relative ${className}`}>
+        <section id='prizes' className={`h-screen pt-10 relative ${className}`}>
             {/* Title */}
-            <div className="p2p h-full flex flex-col justify-center items-center text-center relative z-10 mb-15 px-6 pt-14">
+            <div className="p2p h-max flex flex-col justify-center items-center text-center relative z-10 mb-15 px-6 pt-14">
                 <h1 
                     className="bstroke3t text-[12vw]/[12vw] font-bold text-[#FFD700] uppercase pixeldigi-font"
                 >

@@ -54,6 +54,10 @@ svg {
   word-spacing: 0.25em;
 }
 
+.bn {
+  font-family: "BN";
+}
+
 /* subtle up-down floating animation for scroll arrow */
 .animate-float {
   animation: floatY 1.8s steps(2, end) infinite;

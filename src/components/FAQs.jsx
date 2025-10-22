@@ -1,6 +1,6 @@
 export default function FAQs() {
     return (
-        <section>
+        <section className="">
             <div>
 
             </div>
