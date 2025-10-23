@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion, useTransform, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import { scrollY } from "@/utils/globalScroll";
-import PixelDaft from "./sub/PixelDaft";
 
 export default function Tracks({ className = "" }) {
   const sectionRef = useRef(null);
@@ -63,9 +62,8 @@ export default function Tracks({ className = "" }) {
     const freezeStart = sectionOff + wrapHeight / 2 - winHeight / 2;
     const freezeEnd = freezeStart + internalDistance;
 
-    const titleCenter =
-      tracksTitleRef.current.offsetTop + tracksTitleRef.current.offsetHeight / 2;
-    const listOffset = titleCenter - firstCenter;
+    const wrapCenter = listW.clientHeight / 2;
+    const listOffset = wrapCenter - firstCenter;
 
     const sectionHeightWithInternal = wrapHeight + internalDistance;
     section.style.minHeight = `${sectionHeightWithInternal}px`;

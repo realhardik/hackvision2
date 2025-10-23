@@ -45,20 +45,17 @@ export default function PixelReveal({ className="" }) {
 
     setupCanvasAndGrid();
 
-    const rowDuration = 0.15; // keep short duration
-    const rowOffset = 0.05;   // small stagger
+    const rowDuration = 0.15;
+    const rowOffset = 0.05;
 
-    // easing function for smoother reveal per row
     const easeInOut = (t) => {
-      // easeInOutCubic
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     };
 
     const draw = (p) => {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = colorB; // set once per frame
+      ctx.fillStyle = colorB; 
       
-      // from bottom to top
       for (let r = 0; r < rows; r++) {
         const row = grid[rows - 1 - r];
         const offset = r * rowOffset;
@@ -74,7 +71,6 @@ export default function PixelReveal({ className="" }) {
           ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
         }
 
-        // draw the next pixel with partial alpha to smooth the step
         if (pixelCount < row.length && frac > 0) {
           const { x, y } = row[pixelCount];
           const prevAlpha = ctx.globalAlpha;
@@ -85,7 +81,6 @@ export default function PixelReveal({ className="" }) {
       }
     };
 
-    // rAF throttle to ensure one draw per frame
     let ticking = false;
     let lastProgress = 0;
     const scheduleDraw = () => {
