@@ -1,15 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --f1: #ffffff;
+  --f2: #0a0a0a;
+  --blue: #65aef7ff;
+  --yellow: #ffe600ff;
+  --green: #00ff22ff;
+  --violet: #7a00ffff;
+  --munsell: #ff003cff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -49,9 +47,12 @@ svg {
   font-family: "medodica";
 }
 
-.cg {
-  font-family: "CG";
-  word-spacing: 0.25em;
+.an {
+  font-family: "Anton";
+}
+
+.cd {
+  font-family: "ClashDisplay";
 }
 
 .bn {
@@ -157,6 +158,42 @@ nav {
   -moz-background-size: cover; 
   -o-background-size: cover; 
   background-size: cover;
+}
+
+#tracks-grid>div {
+  border-bottom: 1px dotted black;
+}
+
+#tracks-grid span {
+  display: block;
+  float: left;
+}
+
+#tracks-grid div>span:first-child {
+  width: 20vw;
+}
+
+#tracks-grid div>span:last-child {
+  width: 40vw;
+}
+
+.tracks-canvas {
+  width: 46vw;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  #tracks-grid div>span:first-child { width: 28vw; }
+  #tracks-grid div>span:last-child { width: 66vw; }
+  .tracks-canvas { position: static; margin: 24px auto 0; width: 66vw; max-width: 520px; }
+}
+
+@media (max-width: 640px) {
+  #tracks-grid div>span:first-child { width: 34vw; }
+  #tracks-grid div>span:last-child { width: 80vw; }
+  .tracks-canvas { width: 78vw; margin-top: 20px; }
 }
 
 @keyframes pixelShift {

@@ -8,7 +8,7 @@ export default function PixelReveal({ className="" }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const colorB = "#4bfb4b";
+    const colorB = "#ffe600";
 
     const pixelSize = 90;
     let width = 0;

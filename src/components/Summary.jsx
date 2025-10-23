@@ -106,7 +106,7 @@ export default function Summary({ className = "" }) {
               <MountainsStrip className="w-full" height={52} />
             </div>
           </div>
-          <div id='text1' className="cg font-medium text-black flex flex-col justify-center items-center text-[3.5vw] md:text-[3.33vw] mb-25">
+          <div id='text1' className="bn font-medium text-black flex flex-col justify-center items-center text-[3.5vw] md:text-[3.33vw] mb-25">
               <span>
                 <span>Lorem Ipsum is simply dummy text</span>
               </span>
@@ -213,7 +213,6 @@ export default function Summary({ className = "" }) {
             </div>
             <PixelReveal className='-mt-[50%] z-10 absolute top-0 left-0' />
           </div>
-          
         </div>
       </section>
   )
