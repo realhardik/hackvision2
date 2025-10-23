@@ -22,49 +22,39 @@ export default function BunnyHopper({ top = '50%', left = '50%' }) {
         const doHop = (goingLeft = null, startX = null) => {
           const goingLeftFinal = goingLeft !== null ? goingLeft : Math.random() < 0.5;
           const dir = goingLeftFinal ? -1 : 1;
-      
+        
           const baseX = startX !== null ? startX : currentX;
           const height = 30 + Math.random() * 15;
           const distance = dir * (Math.max(20, height * 0.9) + Math.random() * 10);
           const duration = 0.32 + Math.random() * 0.1;
-      
+        
           const newX = baseX + distance;
-      
+        
           setFlip(goingLeftFinal);
           setHopParams({ height, duration });
           targetRef.current = newX;
           setAnimTargetX(newX);
-      
+        
           setFrame(1);
           setTimeout(() => setFrame(2), Math.max(80, duration * 150));
           setTimeout(() => setFrame(0), Math.max(250, duration * 450));
         };
-      
+    
         const loop = () => {
           const goingLeft = Math.random() < 0.5;
-      
+    
           doHop(goingLeft);
-      
+          
           if (Math.random() < 0.3) {
             setTimeout(() => {
               doHop(goingLeft, targetRef.current);
             }, 700);
-          }
+    }
         };
-      
-        const startDelay = Math.random() * 3000; // 0–3s
-        const startTimeout = setTimeout(() => {
-          loop(); // first hop
-          const interval = setInterval(loop, 1600 + Math.random() * 1200);
-          // store interval id to clear on unmount
-          targetRef.current = interval;
-        }, startDelay);
-      
-        return () => {
-          clearTimeout(startTimeout);
-          if (typeof targetRef.current === 'number') clearInterval(targetRef.current);
-        };
-      }, [currentX]);      
+    
+        const interval = setInterval(loop, 1600 + Math.random() * 1200);
+        return () => clearInterval(interval);
+      }, [currentX]);
       const easeBezier = [0.45, 0, 0.55, 1];
     
       const isAnimating = animTargetX !== null && animTargetX !== currentX;

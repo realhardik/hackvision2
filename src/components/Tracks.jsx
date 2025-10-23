@@ -107,7 +107,7 @@ export default function Tracks({ className = "" }) {
     <section
       id="tracks"
       ref={sectionRef}
-      className={`relative w-full bg-[#f8e9ab] text-black overflow-hidden -mt-2 rounded-b-[64px] ${className}`}
+      className={`relative w-full bg-[#4bfb4b] text-black overflow-hidden -mt-2 rounded-b-[64px] ${className}`}
     >
       <motion.div className="z-2" ref={wrapperRef} style={{ y: comp }}>
         {/* <PixelDaft className="z-0 absolute top-0 left-0 w-full h-screen" /> */}

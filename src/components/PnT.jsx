@@ -44,7 +44,7 @@ export default function PnT() {
         style={{ y }}
         className="w-full h-auto relative"
       >
-        <div className="absolute w-full h-screen top-0 left-0 daybg -z-1" />
+        <div className="absolute w-full h-full top-0 left-0 daybg -z-1" />
         <Prizes />
         <Timeline />
       </motion.div>

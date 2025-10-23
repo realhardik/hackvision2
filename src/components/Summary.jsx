@@ -161,25 +161,25 @@ export default function Summary({ className = "" }) {
                 </div>
               {/* trees */}
               <div className="absolute top-[3vh] left-[15vw]">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute top-[1vh] left-[60%]">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute top-0 left-[35vw] hidden md:block">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute top-[10vh] right-[18vw] hidden md:block">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree3.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree3.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute bottom-[4vh] right-[16vh]">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute bottom-0 left-[30vw]">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
               <div className="absolute bottom-[11vh] left-[14vw]">
-                <Image className="h-[140px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
+                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
             </div>
           </div>
