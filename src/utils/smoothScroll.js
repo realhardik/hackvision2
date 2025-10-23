@@ -463,8 +463,12 @@ class LScroll {
         const offset = sv.inf ? Math.max(pin, 0) : F.Clamp(pin, 0, sv.len);
         const effY = sY - offset;
 
-        option.lockY = F.Damp(option.lockY || 0, effY, 0.4);
-        this.domUp(option.dom, option.lockY, 0);
+        // Solid pinning: no smoothing, clamp to integer pixels to avoid drift
+        const nextY = Math.round(effY);
+        if (option.lockY !== nextY) {
+          option.lockY = nextY;
+          this.domUp(option.dom, nextY, 0);
+        }
       }
     }
   }
@@ -491,12 +495,26 @@ class LScroll {
 
     let lockAt = null;
     if (hasStk) {
-      const p = this.isX ? "offsetLeft" : "offsetTop";
-      lockAt = (el, pos, r) => ({
-        top: r ? el[p] : 0,
-        center: r ? el[p] + el.offsetHeight / 2 : t / 2,
-        bottom: r ? el[p] + el.offsetHeight : t
-      }[pos]);
+      // Compute sticky reference positions using visual positions
+      // so relative/top offsets (like -top-[100vh]) are respected.
+      lockAt = (el, pos, r) => {
+        if (r) {
+          const rect = el.getBoundingClientRect();
+          const base = D + rect.top;
+          const size = rect.height;
+          return ({
+            top: base,
+            center: base + size / 2,
+            bottom: base + size
+          })[pos];
+        } else {
+          return ({
+            top: 0,
+            center: t / 2,
+            bottom: t
+          })[pos];
+        }
+      };
 
       for (let i = 0; i < stky.length; i++) {
         const option = stky[i];

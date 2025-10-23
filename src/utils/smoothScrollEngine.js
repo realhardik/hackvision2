@@ -9,9 +9,11 @@ class SmoothScrollEngine {
     this.scroll = null;
     this.lsc = null;
     this.raf = null;
+    this.ro = null;
     
     if (typeof window !== 'undefined') {
       F.l(window, "resize", this.resize);
+      F.l(window, "load", this.resize);
     }
   }
 
@@ -26,6 +28,15 @@ class SmoothScrollEngine {
       this.scroll.init({ isX: options.isX || false });
       this.lsc.init();
       this.resize();
+
+      // Observe layout changes on the main container to keep bounds fresh
+      const folio = document.getElementById('folio');
+      if ('ResizeObserver' in window && folio) {
+        this.ro = new ResizeObserver(() => {
+          this.resize();
+        });
+        this.ro.observe(folio);
+      }
       this.raf.run();
     }
   }
@@ -42,6 +53,14 @@ class SmoothScrollEngine {
     if (this.scroll) {
       this.scroll.off();
     }
+    if (typeof window !== 'undefined') {
+      F.l(window, "resize", this.resize, true);
+      F.l(window, "load", this.resize, true);
+    }
+    if (this.ro) {
+      try { this.ro.disconnect(); } catch (_) {}
+      this.ro = null;
+    }
   }
 
   loop() {
@@ -54,7 +73,6 @@ class SmoothScrollEngine {
 
   resize() {
     if (typeof window !== 'undefined' && this.c) {
-      console.log("resize")
       // Update window dimensions
       this.c.win.w = window.innerWidth;
       this.c.win.h = window.innerHeight;

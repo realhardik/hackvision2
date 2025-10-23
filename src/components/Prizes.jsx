@@ -3,7 +3,7 @@ import React from 'react';
 
 const Prizes = ({ className = "" }) => {
     return (
-        <section id='prizes' className={`min-h-screen pt-10 relative ${className} flex flex-col justify-between`}>
+        <section id='prizes' className={`min-h-screen pt-10 relative ${className} flex flex-col justify-between]`}>
             <div className='w-full h-max'>
                 {/* Title */}
                 <div className="p2p h-max flex flex-col justify-center items-center text-center relative z-10 mb-15 px-6 pt-14">

@@ -1,8 +1,6 @@
-
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
-import { motion, cubicBezier } from 'framer-motion';
 import BunnyHopper from './sub/BunnyHopper';
+import PixelReveal from './sub/PixelReveal';
 
 function MountainsStrip({ className = "", height = 52 }) {
     return (
@@ -108,7 +106,7 @@ export default function Summary({ className = "" }) {
               <MountainsStrip className="w-full" height={52} />
             </div>
           </div>
-          <div className="cg font-medium text-black flex flex-col justify-center items-center text-[3.5vw] md:text-[3.33vw] mb-25">
+          <div id='text1' className="cg font-medium text-black flex flex-col justify-center items-center text-[3.5vw] md:text-[3.33vw] mb-25">
               <span>
                 <span>Lorem Ipsum is simply dummy text</span>
               </span>
@@ -122,70 +120,71 @@ export default function Summary({ className = "" }) {
                 <span>since the 1500s, when an unknown printer took a galley.</span>
               </span>
           </div>
-          <div className="relative w-full h-max mb-5">
-            <div className="relative w-full px-5">
-              {/* flowers */}
-              <div className="relative w-full h-[450px]">
-                <div className="absolute w-[25px] top-[20vh] left-[30vw]">
-                  <Image src="/assets/summary/forest/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+          <div className='relative'>
+            <div className="relative w-full h-max mb-5 z-9">
+              <div className="relative w-full px-5">
+                {/* flowers */}
+                <div className="relative w-full h-[450px]">
+                  <div className="absolute w-[25px] top-[20vh] left-[30vw]">
+                    <Image src="/assets/summary/forest/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[25px] bottom-[11vh] left-[25vw]">
+                    <Image src="/assets/summary/forest/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[25px] bottom-[25%] right-[25%]">
+                    <Image src="/assets/summary/forest/flower2.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[25px] top-[25%] right-[30%]">
+                    <Image src="/assets/summary/forest/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[25px] top-1/2 right-[15%]">
+                    <Image src="/assets/summary/forest/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[35px] bottom-[3vh] right-[55%]">
+                    <Image src="/assets/summary/forest/bush1.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                  </div>
+                  <div className="absolute w-[15px] bottom-[18vh] right-[47vw] rotate-15">
+                    <Image src="/assets/summary/forest/carrot.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                  </div>
+                  {/* <div className="absolute w-[15px] bottom-[17vh] left-[38vw] rotate-12">
+                    <Image src="/assets/summary/forest/carrot.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                  </div> */}
                 </div>
-                <div className="absolute w-[25px] bottom-[11vh] left-[25vw]">
-                  <Image src="/assets/summary/forest/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                {/* animals */}
+                <div className="absolute top-0 left-0 w-full h-[350px]">
+                  <div className="absolute top-[35%] left-[25%]">
+                    <Image className="w-[60px]" src="/assets/summary/forest/wolf.png" alt="" width={45} height={45} loading="eager" priority />
+                  </div>
+                  <BunnyHopper />
+                  <BunnyHopper top="70%" left="25%"/>
+                  </div>
+                {/* trees */}
+                <div className="absolute top-[3vh] left-[15vw]">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <div className="absolute w-[25px] bottom-[25%] right-[25%]">
-                  <Image src="/assets/summary/forest/flower2.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                <div className="absolute top-[1vh] left-[60%]">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <div className="absolute w-[25px] top-[25%] right-[30%]">
-                  <Image src="/assets/summary/forest/flower1.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                <div className="absolute top-0 left-[35vw] hidden md:block">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <div className="absolute w-[25px] top-1/2 right-[15%]">
-                  <Image src="/assets/summary/forest/flower3.png" alt="" className="" width={25} height={25} loading="eager" priority />
+                <div className="absolute top-[10vh] right-[18vw] hidden md:block">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree3.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <div className="absolute w-[35px] bottom-[3vh] right-[55%]">
-                  <Image src="/assets/summary/forest/bush1.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                <div className="absolute bottom-[4vh] right-[16vh]">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <div className="absolute w-[15px] bottom-[18vh] right-[47vw] rotate-15">
-                  <Image src="/assets/summary/forest/carrot.png" alt="" className="" width={35} height={35} loading="eager" priority />
+                <div className="absolute bottom-0 left-[30vw]">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                {/* <div className="absolute w-[15px] bottom-[17vh] left-[38vw] rotate-12">
-                  <Image src="/assets/summary/forest/carrot.png" alt="" className="" width={35} height={35} loading="eager" priority />
-                </div> */}
-              </div>
-              {/* animals */}
-              <div className="absolute top-0 left-0 w-full h-[350px]">
-                <div className="absolute top-[35%] left-[25%]">
-                  <Image className="w-[60px]" src="/assets/summary/forest/wolf.png" alt="" width={45} height={45} loading="eager" priority />
+                <div className="absolute bottom-[11vh] left-[14vw]">
+                  <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>
-                <BunnyHopper />
-                <BunnyHopper top="70%" left="25%"/>
-                </div>
-              {/* trees */}
-              <div className="absolute top-[3vh] left-[15vw]">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute top-[1vh] left-[60%]">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute top-0 left-[35vw] hidden md:block">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute top-[10vh] right-[18vw] hidden md:block">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree3.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute bottom-[4vh] right-[16vh]">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree2.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute bottom-0 left-[30vw]">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
-              </div>
-              <div className="absolute bottom-[11vh] left-[14vw]">
-                <Image className="h-[125px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
               </div>
             </div>
+            <PixelReveal className='-mt-[50%] z-10 absolute top-0 left-0' />
           </div>
-          <div className="relative w-full h-auto">
-            <Image src="/assets/summary/tra-nsition.png" className="h-auto w-full" alt="" width={800} height={200} loading="eager" priority />
-          </div>
+          
         </div>
       </section>
   )
