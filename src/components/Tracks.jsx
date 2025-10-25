@@ -38,7 +38,6 @@ export default function Tracks({ className = "" }) {
     if (!canvas || !imgObj) return;
     const ctx = canvas.getContext("2d");
 
-    // Set CSS size from current layout and scale for DPR
     const cssW = Math.max(1, canvas.clientWidth || 350);
     const cssH = Math.max(1, canvas.clientHeight || 350);
     const dpr = window.devicePixelRatio || 1;
@@ -48,7 +47,6 @@ export default function Tracks({ className = "" }) {
     canvas.height = Math.round(cssH * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // Fit image into canvas (contain)
     const iw = imgObj.naturalWidth || imgObj.width;
     const ih = imgObj.naturalHeight || imgObj.height;
     const scale = Math.min(cssW / iw, cssH / ih);
@@ -57,50 +55,78 @@ export default function Tracks({ className = "" }) {
     const dx = Math.floor((cssW - dw) / 2);
     const dy = Math.floor((cssH - dh) / 2);
 
-    // Draw into offscreen buffer once
     const off = document.createElement("canvas");
     off.width = dw;
     off.height = dh;
     const offCtx = off.getContext("2d");
     offCtx.drawImage(imgObj, 0, 0, dw, dh);
-
-    // Prepare shuffled blocks (pixel-sized tiles)
-    const tile = 14; // px tile size for reveal granularity
+    
+    const tile = 14;
     const cols = Math.ceil(dw / tile);
     const rowsC = Math.ceil(dh / tile);
-    const order = [];
+
+    // Build per-row shuffled tile orders
+    const rowTiles = new Array(rowsC);
     for (let y = 0; y < rowsC; y++) {
-      for (let x = 0; x < cols; x++) order.push({ x, y });
+      const row = [];
+      for (let x = 0; x < cols; x++) row.push(x);
+      // Fisher-Yates per row
+      for (let i = row.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [row[i], row[j]] = [row[j], row[i]];
+      }
+      rowTiles[y] = row;
     }
-    // shuffle
-    for (let i = order.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [order[i], order[j]] = [order[j], order[i]];
-    }
+
+    const rowIdx = new Array(rowsC).fill(0);
+    let topRow = 0;
+    const windowSize = 4;
+    const totalTiles = cols * rowsC;
+    let remaining = totalTiles;
 
     clearAnim();
-    animState.current.order = order;
-    animState.current.idx = 0;
-
-    // clear canvas
     ctx.clearRect(0, 0, cssW, cssH);
 
-    const batch = Math.max(60, Math.floor(order.length / 18)); // tune speed
+    const batch = Math.max(60, Math.floor(totalTiles / 18)); // tune speed
 
-    const step = () => {
-      const from = animState.current.idx;
-      const to = Math.min(order.length, from + batch);
-      for (let k = from; k < to; k++) {
-        const { x, y } = order[k];
-        const sx = x * tile;
-        const sy = y * tile;
-        const sw = Math.min(tile, dw - sx);
-        const sh = Math.min(tile, dh - sy);
-        if (sw <= 0 || sh <= 0) continue;
+    const drawOneFromRow = (y) => {
+      if (y < 0 || y >= rowsC) return false;
+      const idx = rowIdx[y];
+      const row = rowTiles[y];
+      if (idx >= row.length) return false;
+      const x = row[idx];
+      rowIdx[y] = idx + 1;
+      const sx = x * tile;
+      const sy = y * tile;
+      const sw = Math.min(tile, dw - sx);
+      const sh = Math.min(tile, dh - sy);
+      if (sw > 0 && sh > 0) {
         ctx.drawImage(off, sx, sy, sw, sh, dx + sx, dy + sy, sw, sh);
       }
-      animState.current.idx = to;
-      if (to < order.length) {
+      remaining--;
+      return true;
+    };
+
+    const step = () => {
+      let drawn = 0;
+      const bottomRow = Math.min(rowsC - 1, topRow + windowSize - 1);
+
+      while (drawn < batch && remaining > 0) {
+        let progressedInCycle = false;
+        for (let y = topRow; y <= bottomRow && drawn < batch; y++) {
+          if (drawOneFromRow(y)) {
+            drawn++;
+            progressedInCycle = true;
+          }
+        }
+        if (!progressedInCycle) break;
+      }
+
+      while (topRow < rowsC && rowIdx[topRow] >= rowTiles[topRow].length) {
+        topRow++;
+      }
+
+      if (remaining > 0) {
         animState.current.raf = requestAnimationFrame(step);
       } else {
         animState.current.raf = 0;
@@ -141,25 +167,28 @@ export default function Tracks({ className = "" }) {
       <div className="relative w-full h-max flex justify-center items-center mb-[3vh] md:mb-[5.5vh]">
         <h2 className="cd text-[14vw] select-none">Tracks</h2>
       </div>
-      <div className="relative h-max w-full px-[3vw] md:px-[5vw] lg:px-[7vw]">
-        <div id="tracks-grid" className="flex flex-col flex-wrap text-[5vw] bn">
+      <div className="relative h-max w-full px-[3vw] md:px-[5vw] lg:px-[7vw] py-[8vh] md:py-[10vh] lg:py-[12vh]">
+        <div id="tracks-grid" className="flex flex-col flex-wrap text-[7.5vw] md:text-[5vw] bn">
           {rows.map((r, i) => (
             <div
               key={r.key}
               onMouseEnter={() => handleEnter(r.key)}
               onMouseLeave={handleLeave}
+              className="border-b border-dotted border-black"
               style={{ opacity: hovered === r.key ? 1 : 0.6 }}
             >
-              <span>
+              <span className="block float-left w-[30vw] md:w-[35vw] lg:w-[20vw]">
                 <span>{r.code}</span>
               </span>
-              <span>
+              <span className="block float-left w-[60vw] md:w-[60vw] lg:w-[40vw]">
                 <span>{r.key}</span>
               </span>
             </div>
           ))}
         </div>
-        <div className="tracks-canvas absolute right-0 top-0">
+        <div
+          className="tracks-canvas pointer-events-none aspect-square static mx-auto w-[78vw] mt-5 md:w-[66vw] md:max-w-[520px] md:static md:mx-auto lg:absolute lg:right-0 lg:top-0 lg:w-[46vw] lg:max-w-[420px] lg:mt-0 lg:mx-0"
+        >
           <canvas ref={canvasRef} />
         </div>
       </div>

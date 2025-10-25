@@ -184,6 +184,42 @@ nav {
   pointer-events: none;
 }
 
+.bstroke {
+  text-shadow: 
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+}
+
+.bstrokeds {
+  text-shadow: 
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black,
+     4px 1px 0 rgb(0, 0, 0, .75);
+}
+
+.bstroke3t {
+  position: relative;
+  text-shadow: 
+    -3px -3px 0 black,
+     3px -3px 0 black,
+    -3px  3px 0 black,
+     3px  3px 0 black,
+     6px 6px 0 rgba(75,0,30,0.75);
+}
+
+.text-wrapper {
+  background: var(--yellow) -webkit-gradient(linear, left top, right top, from(var(--yellow)), to(var(--yellow)), color-stop(0.5, #fff)) 0 0 no-repeat;
+  -webkit-background-size: 150px;
+  background-size: 150px;
+  color: rgb(255, 219, 0);
+  -webkit-background-clip: text;
+  animation: animate 5s infinite;
+}
+
 @media (max-width: 1024px) {
   #tracks-grid div>span:first-child { width: 28vw; }
   #tracks-grid div>span:last-child { width: 66vw; }

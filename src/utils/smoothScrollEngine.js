@@ -1,7 +1,6 @@
 import F from './helpers.js';
 import { S, LScroll } from './smoothScroll.js';
 
-// Main smooth scroll engine class
 class SmoothScrollEngine {
   constructor() {
     F.BM(this, ["loop", "resize"]);
@@ -85,7 +84,6 @@ class SmoothScrollEngine {
   }
 }
 
-// Initialize smooth scroll when DOM is ready
 export const initSmoothScroll = (options = {}) => {
   if (typeof window === 'undefined') return null;
   
@@ -96,7 +94,6 @@ export const initSmoothScroll = (options = {}) => {
   return engine;
 };
 
-// Hook for React components
 export const useSmoothScroll = (options = {}) => {
   const React = require('react');
   const [engine, setEngine] = React.useState(null);

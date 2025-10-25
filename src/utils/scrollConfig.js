@@ -2,7 +2,7 @@ export const scrollConfig = {
   cache: {
     LS: {
       home: {
-        scE: ["#summary", "#tracks", "#footer"],
+        scE: ["#summary", "#tracks", "#timeline", "#footer"],
         stky: [
           // {
           //   el: "#summary",
@@ -13,10 +13,10 @@ export const scrollConfig = {
           //   ]
           // },
           {
-            el: "#pnt",
+            el: "#prizes",
             pos: "top",
             range: [
-              "#pnt top",
+              "#prizes top",
               "#tracks bottom"
             ]
           }

@@ -22,7 +22,7 @@ function MountainsStrip({ className = "", height = 52 }) {
 
 export default function Summary({ className = "" }) {
     return (
-      <section id="summary" className={`relative w-full h-auto min-h-screen text-white pt-20 rounded-t-[64px] bg-[#65aef7] ${className}`}>
+      <section id="summary" className={`relative w-full h-auto min-h-screen text-white pt-20 rounded-t-[26px] md:rounded-t-[64px] bg-[#65aef7] ${className}`}>
         <div className="relative w-full h-auto">
           <div className="w-full h-auto relative flex flex-col overflow-hidden mb-20 z-2">
             {/* Clouds Layer */}
@@ -106,7 +106,7 @@ export default function Summary({ className = "" }) {
               <MountainsStrip className="w-full" height={52} />
             </div>
           </div>
-          <div id='text1' className="bn font-medium text-black flex flex-col justify-center items-center text-[3.5vw] md:text-[3.33vw] mb-25">
+          <div id='text1' className="bn font-medium text-black flex flex-col justify-center items-center text-[4.7vw] md:text-[4vw] mb-25">
               <span>
                 <span>Lorem Ipsum is simply dummy text</span>
               </span>
