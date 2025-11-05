@@ -153,7 +153,7 @@ nav {
 }
 
 .daybg {
-  background: url('/assets/prizes/bg.png') no-repeat center center fixed; 
+  background: url('/assets/prizes/newbg.png') no-repeat center center fixed; 
   -webkit-background-size: cover; 
   -moz-background-size: cover; 
   -o-background-size: cover; 
@@ -186,10 +186,10 @@ nav {
 
 .bstroke {
   text-shadow: 
-    -1px -1px 0 black,
-     1px -1px 0 black,
-    -1px  1px 0 black,
-     1px  1px 0 black;
+    -1.5px -1.5px 0 black,
+     1.5px -1.5px 0 black,
+    -1.5px  1.5px 0 black,
+     1.5px  1.5px 0 black;
 }
 
 .bstrokeds {

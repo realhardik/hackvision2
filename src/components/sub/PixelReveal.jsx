@@ -81,15 +81,37 @@ export default function PixelReveal({ className="" }) {
       }
     };
 
-    let ticking = false;
-    let lastProgress = 0;
-    const scheduleDraw = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => {
-          draw(lastProgress);
-          ticking = false;
-        });
+    // Smooth progress controller: scroll sets target, RAF eases current toward target
+    let targetProgress = 0; // set by scroll (0..1)
+    let currentProgress = 0; // used for drawing (0..1), eased over time
+    let rafId = 0;
+    let lastTs = 0;
+    const revealDurationMs = 900; // time to cover full 0->1 if target jumps instantly
+
+    const run = (ts) => {
+      if (!lastTs) lastTs = ts;
+      const dt = Math.min(100, ts - lastTs); // clamp to avoid huge steps on tab switch
+      lastTs = ts;
+
+      const delta = targetProgress - currentProgress;
+      if (Math.abs(delta) > 1e-4) {
+        const step = dt / revealDurationMs; // fraction per frame based on elapsed ms
+        const next = currentProgress + Math.sign(delta) * Math.min(Math.abs(delta), step);
+        currentProgress = Math.min(1, Math.max(0, next));
+        draw(currentProgress);
+        rafId = requestAnimationFrame(run);
+      } else {
+        // Snap to target and stop
+        currentProgress = targetProgress;
+        draw(currentProgress);
+        rafId = 0;
+        lastTs = 0;
+      }
+    };
+
+    const ensureAnimating = () => {
+      if (!rafId) {
+        rafId = requestAnimationFrame(run);
       }
     };
 
@@ -99,19 +121,21 @@ export default function PixelReveal({ className="" }) {
       const top = tracks.getBoundingClientRect().top; // in px, relative to viewport
       const vh = window.innerHeight;
       // Map: top == vh  -> 0,  top == 0 -> 1
-      lastProgress = Math.min(Math.max(1 - top / vh, 0), 1);
-      scheduleDraw();
+      targetProgress = Math.min(Math.max(1 - top / vh, 0), 1);
+      ensureAnimating();
     });
 
     const onResize = () => {
       setupCanvasAndGrid();
-      scheduleDraw();
+      // Redraw at current eased progress
+      draw(currentProgress);
     };
     window.addEventListener("resize", onResize);
 
     return () => {
       unsub();
       window.removeEventListener("resize", onResize);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 

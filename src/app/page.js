@@ -10,6 +10,8 @@ import { createGlobalConfig } from "@/utils/scrollConfig";
 import { initSmoothScroll } from "@/utils/smoothScrollEngine";
 import Prizes from "@/components/Prizes";
 import Timeline from "@/components/Timeline";
+import Sponsors from "@/components/Sponsors";
+import FAQs from "@/components/FAQs";
 
 export default function Home() {
   const [ready, setReady] = useState(false);
@@ -37,7 +39,9 @@ export default function Home() {
       <Summary className="z-12" />
       <Tracks className="z-12" />
       <Prizes />
-      <Timeline />
+      <Sponsors />
+      {/* <Timeline /> */}
+      <FAQs />  
       <Footer />
     </main>
   );

@@ -28,7 +28,6 @@ class SmoothScrollEngine {
       this.lsc.init();
       this.resize();
 
-      // Observe layout changes on the main container to keep bounds fresh
       const folio = document.getElementById('folio');
       if ('ResizeObserver' in window && folio) {
         this.ro = new ResizeObserver(() => {

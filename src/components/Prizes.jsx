@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Prizes = ({ className = "" }) => {
     return (
-        <section id='prizes' className={`min-h-screen pt-10 relative ${className} flex flex-col justify-between -top-[100vh]`}>
+        <section id='prizes' className={`min-h-screen w-full pt-10 relative ${className} flex flex-col justify-between -top-[100vh]`}>
             <div className="absolute w-full h-full top-0 left-0 daybg -z-1" />
             <div className='w-full h-max'>
                 {/* Title */}
@@ -21,28 +21,25 @@ const Prizes = ({ className = "" }) => {
                     {/* 2nd Place */}
                     <div className="text-center p-2 w-72">
                         <img src='/assets/prizes/silver.gif' alt="2nd Place" className="w-32 mx-auto mb-4 rotating-coin" />
-                        <h2 className="bstroke text-3xl font-bold mb-2 text-[#FFD700]">2ND PLACE</h2>
-                        <p className="bstrokeds text-white text-5xl">25,000 RS</p>
+                        <h2 className="bstroke text-3xl font-bold mb-2 text-[#FF8C00]">2ND PLACE</h2>
+                        <p className="bstrokeds text-[#FF8C00] text-5xl">25,000 RS</p>
                     </div>
 
                     {/* 1st Place */}
                     <div className="text-center p-2 w-80">
                         <img src='/assets/prizes/gold.gif' alt="1st Place Winner" className="w-44 mx-auto mb-4" />
-                        <h2 className="bstroke text-3xl mb-2 text-[#FFD700]">1ST PLACE</h2>
-                        <p className="bstrokeds text-white text-5xl">50,000 RS</p>
+                        <h2 className="bstroke text-3xl mb-2 text-[#FF8C00]">1ST PLACE</h2>
+                        <p className="bstrokeds text-[#FF8C00] text-5xl">50,000 RS</p>
                     </div>
 
                     {/* 3rd Place */}
                     <div className="text-center p-2 w-72">
                         <img src="/assets/prizes/bronze.gif" alt="3rd Place" className="w-32 mx-auto mb-4" />
-                        <h2 className="bstroke text-3xl mb-2 text-[#FFD700]">3RD PLACE</h2>
-                        <p className="bstrokeds text-white text-5xl">15,000 RS</p>
+                        <h2 className="bstroke text-3xl mb-2 text-[#FF8C00]">3RD PLACE</h2>
+                        <p className="bstrokeds text-[#FF8C00] text-5xl">15,000 RS</p>
                     </div>
                 </div>
                 </div>
-            <div className="relative z-0 pointer-events-none w-full h-auto max-h-[300px] object-cover">
-                <img src="/assets/prizes/prizestrap.png" alt="traps" className="w-full h-full" />
-            </div>
         </section>
     );
 };
