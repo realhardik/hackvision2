@@ -40,7 +40,7 @@ export default function Home() {
       <Tracks className="z-12" />
       <Prizes />
       <Sponsors />
-      {/* <Timeline /> */}
+      <Timeline />
       <FAQs />  
       <Footer />
     </main>

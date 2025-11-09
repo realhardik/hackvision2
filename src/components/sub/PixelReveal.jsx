@@ -17,8 +17,6 @@ export default function PixelReveal({ className="" }) {
     let rows = 0;
     let grid = [];
 
-    // stable mapping based on visual position each frame (resilient to layout shifts)
-
     const setupCanvasAndGrid = () => {
       // Use CSS size for crisp DPR scaling
       const cssW = canvas.clientWidth || window.innerWidth;
@@ -81,7 +79,6 @@ export default function PixelReveal({ className="" }) {
       }
     };
 
-    // Smooth progress controller: scroll sets target, RAF eases current toward target
     let targetProgress = 0; // set by scroll (0..1)
     let currentProgress = 0; // used for drawing (0..1), eased over time
     let rafId = 0;
@@ -118,16 +115,14 @@ export default function PixelReveal({ className="" }) {
     const unsub = scrollY.on("change", () => {
       const tracks = document.getElementById("tracks");
       if (!tracks) return;
-      const top = tracks.getBoundingClientRect().top; // in px, relative to viewport
+      const top = tracks.getBoundingClientRect().top;
       const vh = window.innerHeight;
-      // Map: top == vh  -> 0,  top == 0 -> 1
       targetProgress = Math.min(Math.max(1 - top / vh, 0), 1);
       ensureAnimating();
     });
 
     const onResize = () => {
       setupCanvasAndGrid();
-      // Redraw at current eased progress
       draw(currentProgress);
     };
     window.addEventListener("resize", onResize);

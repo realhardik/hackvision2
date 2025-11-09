@@ -1,6 +1,5 @@
 import F from './helpers.js';
 
-// RequestAnimationFrame manager
 let preR = 0;
 const FR = 1000 / 60;
 
@@ -463,7 +462,6 @@ class LScroll {
         const offset = sv.inf ? Math.max(pin, 0) : F.Clamp(pin, 0, sv.len);
         const effY = sY - offset;
 
-        // Solid pinning: no smoothing, clamp to integer pixels to avoid drift
         const nextY = Math.round(effY);
         if (option.lockY !== nextY) {
           option.lockY = nextY;
@@ -495,8 +493,6 @@ class LScroll {
 
     let lockAt = null;
     if (hasStk) {
-      // Compute sticky reference positions using visual positions
-      // so relative/top offsets (like -top-[100vh]) are respected.
       lockAt = (el, pos, r) => {
         if (r) {
           const rect = el.getBoundingClientRect();

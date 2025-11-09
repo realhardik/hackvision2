@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import BunnyHopper from './sub/BunnyHopper';
 import PixelReveal from './sub/PixelReveal';
 
 function MountainsStrip({ className = "", height = 52 }) {
@@ -171,14 +170,6 @@ export default function Summary({ className = "" }) {
                     <Image src="/assets/summary/forest/carrot.png" alt="" className="" width={35} height={35} loading="eager" priority />
                   </div> */}
                 </div>
-                {/* animals */}
-                <div className="absolute top-0 left-0 w-full h-[450px]">
-                  <BunnyHopper />
-                  <BunnyHopper top="70%" left="25%"/>
-                  <BunnyHopper bottom='15%' left='75%'/>
-                  <BunnyHopper top='20%' right='25%'/>
-                  </div>
-                {/* trees */}
                 <div className="absolute top-[3vh] left-[15vw]">
                   <Image className="h-[150px] w-auto" src="/assets/summary/forest/tree1.png" alt="" width={125} height={125} loading="eager" priority />
                 </div>

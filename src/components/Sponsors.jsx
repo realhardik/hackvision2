@@ -35,22 +35,22 @@ export default function Sponsors() {
     return (
         <section id='sponsors' className='min-h-screen w-full -mt-2 relative flex flex-col pb-20'>
             <div className='w-full h-full'>
-                <div>
-                    <img src="/assets/sponsors/newbg.png" className="absolute top-0 left-0 w-full h-full object-cover" alt="" />
-                </div>
+                {/* <div className="relative h-max">
+                    <img src="/assets/sponsors/newbg.png" className="w-full h-full object-cover" alt="" />
+                </div> */}
                 
                 {/* Title */}
-                <div className="p2p h-max flex flex-col justify-center items-center text-center relative z-10 mb-20 px-6 pt-14">
+                {/* <div className="p2p h-max flex flex-col justify-center items-center text-center relative z-10 mb-20 px-6 pt-14">
                     <h1 
                         className="text-wrapper bstroke3t text-[12vw]/[12vw] font-bold text-[var(--yellow)] uppercase pixeldigi-font"
                     >
                         Sponsors
                     </h1>
-                </div>
+                </div> */}
 
                 {/* Sponsors Content */}
-                <div className="relative z-10 space-y-8">
-                    {/* Title Sponsor - 1 card, largest */}
+                {/* <div className="relative z-10 space-y-8">
+                    // Title Sponsor - 1 card, largest
                     <SponsorTier 
                         title="Title Sponsor" 
                         count={1} 
@@ -58,7 +58,7 @@ export default function Sponsors() {
                         cardSize="max-w-md mx-auto"
                     />
 
-                    {/* Co-Title Sponsors - 2 cards */}
+                    // Co-Title Sponsors - 2 cards
                     <SponsorTier 
                         title="Co-Title Sponsors" 
                         count={2} 
@@ -66,7 +66,7 @@ export default function Sponsors() {
                         cardSize="max-w-sm mx-auto"
                     />
 
-                    {/* Platinum Sponsors - 4 cards */}
+                    // Platinum Sponsors - 4 cards
                     <SponsorTier 
                         title="Platinum Sponsors" 
                         count={4} 
@@ -74,7 +74,7 @@ export default function Sponsors() {
                         cardSize="max-w-xs mx-auto"
                     />
 
-                    {/* Gold Sponsors - 6 cards */}
+                    // Gold Sponsors - 6 cards
                     <SponsorTier 
                         title="Gold Sponsors" 
                         count={6} 
@@ -82,13 +82,13 @@ export default function Sponsors() {
                         cardSize="max-w-[200px] mx-auto"
                     />
 
-                    {/* Bronze Sponsors - 8 cards (6 in first row, 2 in second) */}
+                    // Bronze Sponsors - 8 cards (6 in first row, 2 in second)
                     <div className="w-full mb-16 relative z-10">
                         <h2 className="text-center text-[#FF8C00] text-5xl md:text-6xl font-bold mb-8 pixeldigi-font uppercase">
                             Bronze Sponsors
                         </h2>
                         <div className="px-4 md:px-12 lg:px-20 max-w-7xl mx-auto">
-                            {/* First row - 6 sponsors */}
+                            // First row - 6 sponsors
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 mb-6 md:mb-8">
                                 {Array.from({ length: 6 }).map((_, index) => (
                                     <div key={index} className="max-w-[160px] mx-auto">
@@ -96,7 +96,7 @@ export default function Sponsors() {
                                     </div>
                                 ))}
                             </div>
-                            {/* Second row - 2 sponsors centered */}
+                            // Second row - 2 sponsors centered
                             <div className="flex justify-center gap-6 md:gap-8">
                                 {Array.from({ length: 2 }).map((_, index) => (
                                     <div key={index + 6} className="max-w-[160px]">
@@ -106,7 +106,7 @@ export default function Sponsors() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </section>
     )
