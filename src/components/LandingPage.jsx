@@ -78,7 +78,7 @@ export default function LandingPage({ className = "" }) {
       
 
     return (
-        <div id="landing-page" ref={containerRef} className={`relative w-full min-h-screen h-max flex flex-col p2p justify-center items-center text-white px-5 py-20 overflow-hidden${className}`}>
+        <div id="landing-page" className={`relative w-full min-h-screen h-max p2p text-white flex flex-col justify-center items-center px-5 py-20 overflow-hidden ${className}`}>
             {/* Floating Pixel Images - Scattered Across Screen */}
             <div className="pointer-events-none absolute inset-0 z-5">
                 {/* Pixel 1 - Top Left */}
@@ -155,77 +155,79 @@ export default function LandingPage({ className = "" }) {
                     style={{ animationDelay: '21s' }}
                 />
             </div>
-            <div className="relative z-10 mb-[4vh]">
-                <img
-                src="/assets/home/hackvisionlogo.svg"
-                alt="HackVision logo"
-                className="w-[90vw] sm:w-[90vw] md:w-[80vw] h-auto"
-                />
-            </div>
-            <div className="relative z-10 mb-[8vh] md:text-xl flex flex-col justify-center items-center md:block ">
-                <span className="text-amber-200">SAVE THE DATE! </span> — <span className="font-bold">OCTOBER 15th, 2025</span>
-            </div>
-            <div className="relative flex z-10 space-x-10">
-                <img
-                    src="/assets/home/register-front.png"
-                    alt="Register button"
-                    className="absolute w-[150px] md:w-[250px] h-auto cursor-pointer translate-[-5px] hover:translate-[0px] hover:brightness-85"
-                />
-                <img
-                    src="/assets/home/register-back.png"
-                    alt="Register button"
-                    className="w-[150px] md:w-[250px] h-auto pointer-events-none"
-                />
-            </div>
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[40px] h-[40px] animate-float">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="40"
-                    height="40"
-                    viewBox="0 0 25 25"
-                >
-                    <defs>
-                    <clipPath id="a">
-                        <path d="M0 0h25v25H0z" />
-                    </clipPath>
-                    <clipPath id="f">
-                        <path d="M0 0h19v19H0z" />
-                    </clipPath>
-                    <clipPath id="g">
-                        <path d="M0 0h9v9H0z" />
-                    </clipPath>
-                    <clipPath id="d">
-                        <path d="M0 0h19v19H0z" />
-                    </clipPath>
-                    <clipPath id="e">
-                        <path d="M0 0h9v9H0z" />
-                    </clipPath>
-                    <clipPath id="b">
-                        <path d="M0 0h19v19H0z" />
-                    </clipPath>
-                    <clipPath id="c">
-                        <path d="M0 0h9v9H0z" />
-                    </clipPath>
-                    </defs>
+            <div id="landCont" className="relative w-full h-full z-10 flex flex-col justify-center items-center" ref={containerRef}>
+                <div className="relative z-10 mb-[4vh]">
+                    <img
+                    src="/assets/home/hackvisionlogo.svg"
+                    alt="HackVision logo"
+                    className="w-[90vw] sm:w-[90vw] md:w-[80vw] h-auto"
+                    />
+                </div>
+                <div className="relative z-10 mb-[8vh] md:text-xl flex flex-col justify-center items-center md:block ">
+                    <span className="text-amber-200">SAVE THE DATE! </span> — <span className="font-bold">OCTOBER 15th, 2025</span>
+                </div>
+                <div className="relative flex z-10 space-x-10">
+                    <img
+                        src="/assets/home/register-front.png"
+                        alt="Register button"
+                        className="absolute w-[150px] md:w-[250px] h-auto cursor-pointer translate-[-5px] hover:translate-[0px] hover:brightness-85"
+                    />
+                    <img
+                        src="/assets/home/register-back.png"
+                        alt="Register button"
+                        className="w-[150px] md:w-[250px] h-auto pointer-events-none"
+                    />
+                </div>
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[40px] h-[40px] animate-float">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 25 25"
+                    >
+                        <defs>
+                        <clipPath id="a">
+                            <path d="M0 0h25v25H0z" />
+                        </clipPath>
+                        <clipPath id="f">
+                            <path d="M0 0h19v19H0z" />
+                        </clipPath>
+                        <clipPath id="g">
+                            <path d="M0 0h9v9H0z" />
+                        </clipPath>
+                        <clipPath id="d">
+                            <path d="M0 0h19v19H0z" />
+                        </clipPath>
+                        <clipPath id="e">
+                            <path d="M0 0h9v9H0z" />
+                        </clipPath>
+                        <clipPath id="b">
+                            <path d="M0 0h19v19H0z" />
+                        </clipPath>
+                        <clipPath id="c">
+                            <path d="M0 0h9v9H0z" />
+                        </clipPath>
+                        </defs>
 
-                    <g clipPath="url(#a)">
-                    <g clipPath="url(#f)" transform="translate(3 3)" style={{ display: "block" }}>
-                        <g
-                        clipPath="url(#g)"
-                        transform="rotate(.011) scale(2.1111)"
-                        style={{ display: "block" }}
-                        >
-                        <path
-                            fill="#FFF"
-                            d="M0 2.25v1.5h.75v.75h.75v.75h.75V6H3v.75h.75V6h.75v-.75h.75V4.5H6v-.75h.75v-1.5H0z"
-                            transform="rotate(.005) scale(1.3333)"
+                        <g clipPath="url(#a)">
+                        <g clipPath="url(#f)" transform="translate(3 3)" style={{ display: "block" }}>
+                            <g
+                            clipPath="url(#g)"
+                            transform="rotate(.011) scale(2.1111)"
                             style={{ display: "block" }}
-                        />
-                        <path d="M9 0H0v9h9V0z" fill="none" style={{ display: "block" }} />
+                            >
+                            <path
+                                fill="#FFF"
+                                d="M0 2.25v1.5h.75v.75h.75v.75h.75V6H3v.75h.75V6h.75v-.75h.75V4.5H6v-.75h.75v-1.5H0z"
+                                transform="rotate(.005) scale(1.3333)"
+                                style={{ display: "block" }}
+                            />
+                            <path d="M9 0H0v9h9V0z" fill="none" style={{ display: "block" }} />
+                            </g>
                         </g>
-                    </g>
-                    </g>
-                </svg>
+                        </g>
+                    </svg>
+                </div>
             </div>
             <PixelGrid />
         </div>

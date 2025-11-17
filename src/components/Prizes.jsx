@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Prizes = ({ className = "" }) => {
     return (
-        <section id='prizes' className={`min-h-screen w-full pt-10 relative ${className} flex flex-col justify-between -top-[100vh]`}>
+        <section id='prizes' className={`min-h-screen w-full pt-10 relative ${className} flex flex-col justify-between`}>
             <div className="absolute w-full h-full top-0 left-0 daybg -z-1" />
             <div className='w-full h-max'>
                 {/* Title */}

@@ -38,11 +38,11 @@ export default function Home() {
       <LandingPage className="z-10" />
       <Summary className="z-12" />
       <Tracks className="z-12" />
-      <Prizes />
-      <Sponsors />
-      <Timeline />
-      <FAQs />  
-      <Footer />
+      <Prizes className="z-11" />
+      <Sponsors className="z-11" />
+      <Timeline className="z-11" />
+      <FAQs className="z-11" />  
+      <Footer className="z-11" />
     </main>
   );
 }

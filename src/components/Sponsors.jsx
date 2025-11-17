@@ -1,4 +1,4 @@
-export default function Sponsors() {
+export default function Sponsors({ className = "" }) {
     // Sponsor card component
     const SponsorCard = ({ tier, index }) => {
         return (
@@ -33,7 +33,7 @@ export default function Sponsors() {
     };
 
     return (
-        <section id='sponsors' className='min-h-screen w-full -mt-2 relative flex flex-col pb-20'>
+        <section id='sponsors' className={`min-h-screen w-full -mt-2 relative flex flex-col pb-20 ${className}`}>
             <div className='w-full h-full'>
                 {/* <div className="relative h-max">
                     <img src="/assets/sponsors/newbg.png" className="w-full h-full object-cover" alt="" />

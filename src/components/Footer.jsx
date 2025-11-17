@@ -1,6 +1,6 @@
-export default function Footer() {
+export default function Footer({ className = "" }) {
     return (
-        <footer id="footer" className="relative bg-black text-white py-12 md:py-22 w-full h-auto px-4 md:px-14 pixeldigi-font">
+        <footer id="footer" className={`relative bg-black text-white py-12 md:py-22 w-full h-auto px-4 md:px-14 pixeldigi-font ${className}`}>
             <div className="w-full flex flex-col md:flex-row flex-wrap justify-center md:justify-between items-center md:items-stretch">
                 <div className="w-full md:w-max flex flex-col justify-center md:justify-between items-center md:items-start mb-8 md:mb-0">
                     <div className="flex items-center justify-center md:justify-start mb-4">
